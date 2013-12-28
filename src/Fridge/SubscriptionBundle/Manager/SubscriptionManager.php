@@ -1,6 +1,6 @@
 <?php
 
-namespace Fridge\SubscriptionManager\Manager;
+namespace Fridge\SubscriptionBundle\Manager;
 
 use Fridge\SubscriptionBundle\Manager\BaseManager;
 
