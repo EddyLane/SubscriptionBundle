@@ -1,0 +1,4 @@
+subscription:
+    resource: Fridge\SubscriptionBundle\Controller\SubscriptionController
+    type:     rest
+    prefix:   /
