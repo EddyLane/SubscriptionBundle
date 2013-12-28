@@ -1,3 +1,20 @@
 parameters:
 
+    fridge.subscription.manager.base_manager.class:         Fridge\SubscriptionBundle\Manager\BaseManager
+    fridge.subscription.manager.subscription_manager.class: Fridge\SubscriptionBundle\Manager\SubscriptionManager
+
+    fridge.subscription.entity.subscription.class:          Fridge\SubscriptionBundle\Entity\Subscription
+
 services:
+
+    fridge.subscription.manager.base_manager:
+        class:     %fridge.subscription.manager.base_manager.class%
+        abstract:  true
+        calls:
+            - [ setDoctrine, [ @doctrine ] ]
+            - [ setSecurityContext, [ @security.context ] ]
+
+    fridge.subscription.manager.subscription_manager:
+        class: %fridge.subscription.manager.subscription_manager.class%
+        parent: fridge.subscription.manager.base_manager
+        arguments: [%fridge.subscription.entity.subscription.class%]

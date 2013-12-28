@@ -16,7 +16,7 @@ use JMS\Serializer\Annotation\Expose;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="fridge_stripe_profile")
+ * @ORM\Table(name="fridge_subscription_stripe_profile")
  *
  * @ExclusionPolicy("all")
  */
