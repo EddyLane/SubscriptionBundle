@@ -46,14 +46,12 @@ class Subscription
      */
     private $description;
 
-
     /**
      * @ORM\OneToMany(targetEntity="Fridge\SubscriptionBundle\Entity\Payment", mappedBy="subscription", cascade={"all"})
      *
      * @var ArrayCollection $payments
      */
     protected $payments;
-
 
     /**
      * Get id

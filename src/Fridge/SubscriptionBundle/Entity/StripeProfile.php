@@ -6,17 +6,17 @@
  * Time: 19:46
  */
 
-namespace UVd\SubscriptionBundle\Entity;
+namespace Fridge\SubscriptionBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use UVd\PaymentBundle\Entity\Payment;
+use Fridge\SubscriptionBundle\Entity\Payment;
 use Doctrine\Common\Collections\ArrayCollection;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="uvd_stripe_profile")
+ * @ORM\Table(name="fridge_stripe_profile")
  *
  * @ExclusionPolicy("all")
  */
@@ -36,23 +36,23 @@ class StripeProfile
     protected $stripeId;
 
     /**
-     * @ORM\OneToMany(targetEntity="UVd\PaymentBundle\Entity\Payment", mappedBy="user", cascade={"all"})
+     * @ORM\OneToMany(targetEntity="Fridge\SubscriptionBundle\Entity\Payment", mappedBy="user", cascade={"all"})
      *
      * @var ArrayCollection $payments
      */
     protected $payments;
 
     /**
-     * @var \UVd\SubscriptionBundle\Entity\Subscription
+     * @var \Fridge\SubscriptionBundle\Entity\Subscription
      *
      * @Expose
-     * @ORM\ManyToOne(targetEntity="UVd\SubscriptionBundle\Entity\Subscription")
+     * @ORM\ManyToOne(targetEntity="Fridge\SubscriptionBundle\Entity\Subscription")
      * @ORM\JoinColumn(name="subscription_id", referencedColumnName="id", nullable=true, unique=false)
      */
     protected $subscription;
 
     /**
-     * @ORM\OneToMany(targetEntity="UVd\PaymentBundle\Entity\Card", mappedBy="user", cascade={"all"})
+     * @ORM\OneToMany(targetEntity="Fridge\PaymentBundle\Entity\Card", mappedBy="user", cascade={"all"})
      * @Expose
      * @ORM\OrderBy({"created" = "DESC"})
      * @var ArrayCollection $cards
