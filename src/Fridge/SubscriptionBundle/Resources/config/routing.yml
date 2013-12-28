@@ -1,4 +1,4 @@
 subscription:
-    resource: Fridge\SubscriptionBundle\Controller\SubscriptionController
+    resource: "@FridgeSubscriptionBundle/Controller/SubscriptionController.php"
     type:     rest
     prefix:   /
