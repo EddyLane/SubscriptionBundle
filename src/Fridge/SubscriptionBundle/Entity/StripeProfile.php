@@ -52,7 +52,7 @@ class StripeProfile
     protected $subscription;
 
     /**
-     * @ORM\OneToMany(targetEntity="Fridge\PaymentBundle\Entity\Card", mappedBy="user", cascade={"all"})
+     * @ORM\OneToMany(targetEntity="Fridge\SubscriptionBundle\Entity\Card", mappedBy="user", cascade={"all"})
      * @Expose
      * @ORM\OrderBy({"created" = "DESC"})
      * @var ArrayCollection $cards
