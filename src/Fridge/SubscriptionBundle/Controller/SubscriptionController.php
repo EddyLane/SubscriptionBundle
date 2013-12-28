@@ -1,12 +1,12 @@
 <?php
 
-namespace UVd\SubscriptionBundle\Controller;
+namespace Fridge\SubscriptionBundle\Controller;
 
 use Symfony\Component\DependencyInjection\ContainerAware;
 
 /**
  * Class SubscriptionController
- * @package UVd\SubscriptionBundle\Controller
+ * @package Fridge\SubscriptionBundle\Controller
  */
 class SubscriptionController extends ContainerAware
 {
