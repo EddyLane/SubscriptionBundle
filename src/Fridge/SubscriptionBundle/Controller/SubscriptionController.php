@@ -3,6 +3,8 @@
 namespace Fridge\SubscriptionBundle\Controller;
 
 use Symfony\Component\DependencyInjection\ContainerAware;
+use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\View\View;
 
 /**
  * Class SubscriptionController
@@ -11,12 +13,15 @@ use Symfony\Component\DependencyInjection\ContainerAware;
 class SubscriptionController extends ContainerAware
 {
     /**
-     * @return array
+     * Query all Subscription entities
+     *
+     * @return View
      */
     public function getSubscriptionsAction()
     {
         $manager = $this->container->get('fridge.subscription.manager.subscription_manager');
-        return $manager->findAll();
+        $view = View::create($manager->findAll());
+        return $this->container->get('fos_rest.view_handler')->handle($view);
     }
 
 } 

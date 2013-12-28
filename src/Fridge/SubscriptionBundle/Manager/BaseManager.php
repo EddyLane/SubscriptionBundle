@@ -2,6 +2,8 @@
 
 namespace Fridge\SubscriptionBundle\Manager;
 
+use Symfony\Component\Security\Core\SecurityContext;
+
 /**
  * Class BaseManager
  * @package UVd\PaymentBundle\Manager
