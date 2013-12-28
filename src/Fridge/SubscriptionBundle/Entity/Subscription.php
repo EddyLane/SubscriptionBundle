@@ -9,7 +9,7 @@ use JMS\Serializer\Annotation\Expose;
 /**
  * Subscription
  *
- * @ORM\Table("uvd_subscription")
+ * @ORM\Table("fridge_subscription")
  * @ORM\Entity()
  *
  * @ExclusionPolicy("all")
@@ -48,7 +48,7 @@ class Subscription
 
 
     /**
-     * @ORM\OneToMany(targetEntity="Fridge\PaymentBundle\Entity\Payment", mappedBy="subscription", cascade={"all"})
+     * @ORM\OneToMany(targetEntity="Fridge\SubscriptionBundle\Entity\Payment", mappedBy="subscription", cascade={"all"})
      *
      * @var ArrayCollection $payments
      */
