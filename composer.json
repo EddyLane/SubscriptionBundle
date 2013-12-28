@@ -1,5 +1,5 @@
 {
-    "name": "UVd/SubscriptionBundle",
+    "name": "fridge/subscription-bundle",
     "description": "A bundle to facilitate the creation of subscription entities",
     "license": "MIT",
     "type": "symfony-bundle",
