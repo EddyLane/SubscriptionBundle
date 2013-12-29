@@ -46,7 +46,7 @@ class StripeProfile
      * @var \Fridge\SubscriptionBundle\Entity\Subscription
      *
      * @Expose
-     * @ORM\ManyToOne(targetEntity="Fridge\SubscriptionBundle\Entity\Subscription")
+     * @ORM\ManyToOne(targetEntity="Fridge\SubscriptionBundle\Entity\Subscription", cascade={"all"})
      * @ORM\JoinColumn(name="subscription_id", referencedColumnName="id", nullable=true, unique=false)
      */
     protected $subscription;
@@ -152,14 +152,6 @@ class StripeProfile
     public function getPayments()
     {
         return $this->payments;
-    }
-
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->getUsername() . '(' . $this->getEmail() . ')';
     }
 
     /**
