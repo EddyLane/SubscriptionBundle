@@ -5,14 +5,22 @@ parameters:
 
     fridge.subscription.entity.subscription.class:          Fridge\SubscriptionBundle\Entity\Subscription
 
+    fridge.subscription.proxy.stripe_proxy.class:           Fridge\SubscriptionBundle\Proxy\StripeProxy
+
 services:
 
     fridge.subscription.manager.base_manager:
-        class:     %fridge.subscription.manager.base_manager.class%
-        abstract:  true
+        class: %fridge.subscription.manager.base_manager.class%
+        abstract: true
         calls:
             - [ setDoctrine, [ @doctrine ] ]
             - [ setSecurityContext, [ @security.context ] ]
+
+    fridge.subscription.proxy.stripe_proxy:
+        class: %fridge.subscription.proxy.stripe_proxy.class%
+        abstract: true
+        calls:
+            - [ setApiKey, [ '%stripe_secret_key%' ] ]
 
     fridge.subscription.manager.subscription_manager:
         class: %fridge.subscription.manager.subscription_manager.class%
