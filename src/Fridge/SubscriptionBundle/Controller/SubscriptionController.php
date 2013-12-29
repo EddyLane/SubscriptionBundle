@@ -36,15 +36,17 @@ class SubscriptionController extends ContainerAware
     {
         $user = $this->container->get('security.context')->getToken()->getUser();
 
-        $subscription = $this->container->get('fridge.subscription.manager.subscription_manager')->find($id);
+        $manager = $this->container->get('fridge.subscription.manager.subscription_manager');
 
-        $stripeProfile = $user->getStripeProfile();
+        $subscription = $manager->find($id);
 
-        $stripeProfile->setSubscription($subscription);
+        $stripeProfile = $user->getStripeProfile()->setSubscription($subscription);
 
-        $userManager = $this->container->get('fridge.user.manager.user_manager');
+        $em = $this->container->get('doctrine')->getManager();
 
-        $userManager->save($user, true);
+        $em->persist($user);
+
+        $em->flush();
 
         return $this->handleView($user);
     }

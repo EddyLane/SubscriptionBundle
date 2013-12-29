@@ -23,7 +23,7 @@ services:
         class: %fridge.subscription.proxy.abstract_stripe_proxy.class%
         abstract: true
         calls:
-            - [ setApiKey, [ '%stripe_secret_key%' ] ]
+            - [ setApiKey, [ '%fridge_subscription.stripe_sk%' ] ]
 
     fridge.subscription.proxy.stripe_customer:
         class: %fridge.subscription.proxy.stripe_customer.class%

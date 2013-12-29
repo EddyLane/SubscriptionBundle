@@ -17,7 +17,7 @@ class UserListener {
 
     /**
      * @param Container $container
-     * @param StripeProxy $stripeProxy
+     * @param StripeCustomer $stripeCustomer
      */
     public function __construct(Container $container, StripeCustomer $stripeCustomer)
     {
@@ -34,26 +34,7 @@ class UserListener {
 
         if ($entity instanceof User) {
 
-            if(!$entity->getStripeId() || !$entity->getSubscription() || !$eventArgs->hasChangedField('subscription')) {
-                return;
-            }
-
-            try {
-                $customer = $this
-                    ->stripeProxy
-                    ->retrieveCustomer($entity->getStripeId())
-                ;
-
-                $subscriptionData = $customer->updateSubscription(["plan" => $entity->getSubscription()->getName(), "prorate" => true]);
-
-                $entity->setSubscriptionStart(new \DateTime('@' . $subscriptionData['current_period_start']));
-                $entity->setSubscriptionEnd(new \DateTime('@' . $subscriptionData['current_period_end']));
-
-            }
-            catch(\Stripe_CardError $e) {
-                //throw new CardDeclinedException($e->getMessage());
-            }
-
+            die('user');
         }
     }
 }

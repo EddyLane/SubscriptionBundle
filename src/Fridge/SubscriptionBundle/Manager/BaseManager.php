@@ -6,7 +6,7 @@ use Symfony\Component\Security\Core\SecurityContext;
 
 /**
  * Class BaseManager
- * @package UVd\PaymentBundle\Manager
+ * @package Fridge\SubscriptionBundle\Manager
  */
 class BaseManager implements ManagerInterface
 {

@@ -18,8 +18,14 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('u_vd_subscription');
+        $rootNode = $treeBuilder->root('fridge_subscription');
 
+        $rootNode
+            ->children()
+            ->scalarNode('user_class')->isRequired()->cannotBeEmpty()->end()
+            ->scalarNode('stripe_sk')->isRequired()->cannotBeEmpty()->end()
+            ->end()
+        ;
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for
         // more information on that topic.

@@ -19,6 +19,29 @@ class FridgeSubscriptionExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
+
+        if (!isset($configs[0]['user_class'])) {
+            throw new \InvalidArgumentException(
+                'The "user_class" option must be set for the "fridge_subscription" bundle'
+            );
+        }
+
+        if (!isset($configs[0]['stripe_sk'])) {
+            throw new \InvalidArgumentException(
+                'The "stripe_sk" option must be set for the "fridge_subscription" bundle'
+            );
+        }
+
+        $container->setParameter(
+            'fridge_subscription.user_class',
+            $configs[0]['user_class']
+        );
+
+        $container->setParameter(
+            'fridge_subscription.stripe_sk',
+            $configs[0]['stripe_sk']
+        );
+
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
