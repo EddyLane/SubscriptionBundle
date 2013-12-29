@@ -1,11 +1,14 @@
 parameters:
 
-    fridge.subscription.manager.base_manager.class:         Fridge\SubscriptionBundle\Manager\BaseManager
-    fridge.subscription.manager.subscription_manager.class: Fridge\SubscriptionBundle\Manager\SubscriptionManager
+    fridge.subscription.manager.base_manager.class:               Fridge\SubscriptionBundle\Manager\BaseManager
+    fridge.subscription.manager.subscription_manager.class:       Fridge\SubscriptionBundle\Manager\SubscriptionManager
 
-    fridge.subscription.entity.subscription.class:          Fridge\SubscriptionBundle\Entity\Subscription
+    fridge.subscription.entity.subscription.class:                Fridge\SubscriptionBundle\Entity\Subscription
 
-    fridge.subscription.proxy.stripe_proxy.class:           Fridge\SubscriptionBundle\Proxy\StripeProxy
+    fridge.subscription.proxy.abstract_stripe_proxy.class:        Fridge\SubscriptionBundle\Proxy\AbstractStripeProxy
+    fridge.subscription.proxy.stripe_customer.class:              Fridge\SubscriptionBundle\Proxy\StripeCustomer
+
+    fridge.subscription.listener.user_listener.class:             Fridge\SubscriptionBundle\EventListener\UserListener
 
 services:
 
@@ -16,13 +19,23 @@ services:
             - [ setDoctrine, [ @doctrine ] ]
             - [ setSecurityContext, [ @security.context ] ]
 
-    fridge.subscription.proxy.stripe_proxy:
-        class: %fridge.subscription.proxy.stripe_proxy.class%
+    fridge.subscription.proxy.abstract_stripe_proxy:
+        class: %fridge.subscription.proxy.abstract_stripe_proxy.class%
         abstract: true
         calls:
             - [ setApiKey, [ '%stripe_secret_key%' ] ]
+
+    fridge.subscription.proxy.stripe_customer:
+        class: %fridge.subscription.proxy.stripe_customer.class%
+        parent: fridge.subscription.proxy.abstract_stripe_proxy
 
     fridge.subscription.manager.subscription_manager:
         class: %fridge.subscription.manager.subscription_manager.class%
         parent: fridge.subscription.manager.base_manager
         arguments: [%fridge.subscription.entity.subscription.class%]
+
+    fridge.subscription.listener.user_listener:
+        class: %fridge.subscription.listener.user_listener.class%
+        tags:
+            - { name: doctrine.event_listener, event: preUpdate }
+        arguments:    [@service_container, @fridge.subscription.proxy.stripe_customer]
