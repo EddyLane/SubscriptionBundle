@@ -3,11 +3,7 @@
 namespace Fridge\SubscriptionBundle\Controller;
 
 use Symfony\Component\DependencyInjection\ContainerAware;
-use FOS\RestBundle\Controller\FOSRestController;
-use FOS\RestBundle\Controller\Annotations as RestAnnotations;
 use FOS\RestBundle\View\View;
-
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
  * Class SubscriptionController
@@ -40,9 +36,9 @@ class SubscriptionController extends ContainerAware
     {
         $user = $this->container->get('security.context')->getToken()->getUser();
 
-        $stripeProfile = $user->getStripeProfile();
-
         $subscription = $this->container->get('fridge.subscription.manager.subscription_manager')->find($id);
+
+        $stripeProfile = $user->getStripeProfile();
 
         $stripeProfile->setSubscription($subscription);
 
@@ -54,7 +50,7 @@ class SubscriptionController extends ContainerAware
     }
 
     /**
-     * Convinience function to return a view with data
+     * Convenience function to return a view with data
      *
      * @param $data
      * @return mixed
