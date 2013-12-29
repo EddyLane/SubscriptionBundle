@@ -4,11 +4,14 @@ parameters:
     fridge.subscription.manager.subscription_manager.class:       Fridge\SubscriptionBundle\Manager\SubscriptionManager
 
     fridge.subscription.entity.subscription.class:                Fridge\SubscriptionBundle\Entity\Subscription
+    fridge.subscription.entity.stripe_profile.class:              Fridge\SubscriptionBundle\Entity\StripeProfile
 
     fridge.subscription.proxy.abstract_stripe_proxy.class:        Fridge\SubscriptionBundle\Proxy\AbstractStripeProxy
     fridge.subscription.proxy.stripe_customer.class:              Fridge\SubscriptionBundle\Proxy\StripeCustomer
+    fridge.subscription.proxy.stripe_plan.class:                  Fridge\SubscriptionBundle\Proxy\StripePlan
 
-    fridge.subscription.listener.user_listener.class:             Fridge\SubscriptionBundle\EventListener\UserListener
+    fridge.subscription.listener.stripe_profile_listener.class:   Fridge\SubscriptionBundle\EventListener\StripeProfileListener
+    fridge.subscription.listener.subscription_listener.class:     Fridge\SubscriptionBundle\EventListener\SubscriptionListener
 
 services:
 
@@ -29,13 +32,24 @@ services:
         class: %fridge.subscription.proxy.stripe_customer.class%
         parent: fridge.subscription.proxy.abstract_stripe_proxy
 
+    fridge.subscription.proxy.stripe_plan:
+        class: %fridge.subscription.proxy.stripe_plan.class%
+        parent: fridge.subscription.proxy.abstract_stripe_proxy
+
     fridge.subscription.manager.subscription_manager:
         class: %fridge.subscription.manager.subscription_manager.class%
         parent: fridge.subscription.manager.base_manager
         arguments: [%fridge.subscription.entity.subscription.class%]
 
-    fridge.subscription.listener.user_listener:
-        class: %fridge.subscription.listener.user_listener.class%
+    fridge.subscription.listener.stripe_profile_listener:
+        class: %fridge.subscription.listener.stripe_profile_listener.class%
         tags:
             - { name: doctrine.event_listener, event: preUpdate }
-        arguments:    [@service_container, @fridge.subscription.proxy.stripe_customer]
+            - { name: doctrine.event_listener, event: prePersist }
+        arguments: [@fridge.subscription.proxy.stripe_customer, '%fridge.subscription.entity.stripe_profile.class%' ]
+
+    fridge.subscription.listener.subscription_listener:
+        class: %fridge.subscription.listener.subscription_listener.class%
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+        arguments: [@fridge.subscription.proxy.stripe_plan, '%fridge.subscription.entity.subscription.class%']
