@@ -14,7 +14,7 @@ use Symfony\Component\DependencyInjection\Container;
 use Fridge\SubscriptionBundle\Proxy\StripeCustomer;
 use Doctrine\ORM\EntityManager;
 
-class StripeProfileListener
+class StripeProfileListener extends AbstractEntityEventListener
 {
     /**
      * @var \Fridge\SubscriptionBundle\Proxy\StripeCustomer

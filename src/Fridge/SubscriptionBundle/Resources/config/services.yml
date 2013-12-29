@@ -1,26 +1,25 @@
 parameters:
 
-    fridge.subscription.manager.base_manager.class:               Fridge\SubscriptionBundle\Manager\BaseManager
-    fridge.subscription.manager.subscription_manager.class:       Fridge\SubscriptionBundle\Manager\SubscriptionManager
+    fridge.subscription.manager.base_manager.class:                     Fridge\SubscriptionBundle\Manager\BaseManager
+    fridge.subscription.manager.subscription_manager.class:             Fridge\SubscriptionBundle\Manager\SubscriptionManager
+    fridge.subscription.manager.card_manager.class:                     Fridge\SubscriptionBundle\Manager\CardManager
 
-    fridge.subscription.entity.subscription.class:                Fridge\SubscriptionBundle\Entity\Subscription
-    fridge.subscription.entity.stripe_profile.class:              Fridge\SubscriptionBundle\Entity\StripeProfile
+    fridge.subscription.entity.subscription.class:                      Fridge\SubscriptionBundle\Entity\Subscription
+    fridge.subscription.entity.stripe_profile.class:                    Fridge\SubscriptionBundle\Entity\StripeProfile
+    fridge.subscription.entity.card.class:                              Fridge\SubscriptionBundle\Entity\Card
 
-    fridge.subscription.proxy.abstract_stripe_proxy.class:        Fridge\SubscriptionBundle\Proxy\AbstractStripeProxy
-    fridge.subscription.proxy.stripe_customer.class:              Fridge\SubscriptionBundle\Proxy\StripeCustomer
-    fridge.subscription.proxy.stripe_plan.class:                  Fridge\SubscriptionBundle\Proxy\StripePlan
+    fridge.subscription.proxy.abstract_stripe_proxy.class:              Fridge\SubscriptionBundle\Proxy\AbstractStripeProxy
+    fridge.subscription.proxy.stripe_customer.class:                    Fridge\SubscriptionBundle\Proxy\StripeCustomer
+    fridge.subscription.proxy.stripe_plan.class:                        Fridge\SubscriptionBundle\Proxy\StripePlan
 
-    fridge.subscription.listener.stripe_profile_listener.class:   Fridge\SubscriptionBundle\EventListener\StripeProfileListener
-    fridge.subscription.listener.subscription_listener.class:     Fridge\SubscriptionBundle\EventListener\SubscriptionListener
+    fridge.subscription.listener.abstract_entity_event_listener.class:  Fridge\SubscriptionBundle\EventListener\AbstractEntityEventListener
+    fridge.subscription.listener.stripe_profile_listener.class:         Fridge\SubscriptionBundle\EventListener\StripeProfileListener
+    fridge.subscription.listener.subscription_listener.class:           Fridge\SubscriptionBundle\EventListener\SubscriptionListener
+    fridge.subscription.listener.card_listener.class:                   Fridge\SubscriptionBundle\EventListener\CardListener
 
 services:
 
-    fridge.subscription.manager.base_manager:
-        class: %fridge.subscription.manager.base_manager.class%
-        abstract: true
-        calls:
-            - [ setDoctrine, [ @doctrine ] ]
-            - [ setSecurityContext, [ @security.context ] ]
+    #Proxies
 
     fridge.subscription.proxy.abstract_stripe_proxy:
         class: %fridge.subscription.proxy.abstract_stripe_proxy.class%
@@ -36,13 +35,35 @@ services:
         class: %fridge.subscription.proxy.stripe_plan.class%
         parent: fridge.subscription.proxy.abstract_stripe_proxy
 
+    #Managers
+
+    fridge.subscription.manager.base_manager:
+        class: %fridge.subscription.manager.base_manager.class%
+        abstract: true
+        calls:
+            - [ setDoctrine, [ @doctrine ] ]
+            - [ setSecurityContext, [ @security.context ] ]
+
     fridge.subscription.manager.subscription_manager:
         class: %fridge.subscription.manager.subscription_manager.class%
         parent: fridge.subscription.manager.base_manager
         arguments: [%fridge.subscription.entity.subscription.class%]
 
+    fridge.subscription.manager.card_manager:
+        class: %fridge.subscription.manager.card_manager.class%
+        parent: fridge.subscription.manager.base_manager
+        arguments: [%fridge.subscription.entity.card.class%]
+
+    #Listeners
+    fridge.subscription.listener.abstract_entity_event_listener:
+        class: %fridge.subscription.listener.abstract_entity_event_listener.class%
+        abstract: true
+        calls:
+            - [ setContainer, [ @service_container ] ]
+
     fridge.subscription.listener.stripe_profile_listener:
         class: %fridge.subscription.listener.stripe_profile_listener.class%
+        parent: fridge.subscription.listener.abstract_entity_event_listener
         tags:
             - { name: doctrine.event_listener, event: preUpdate }
             - { name: doctrine.event_listener, event: prePersist }
@@ -50,6 +71,14 @@ services:
 
     fridge.subscription.listener.subscription_listener:
         class: %fridge.subscription.listener.subscription_listener.class%
+        parent: fridge.subscription.listener.abstract_entity_event_listener
         tags:
             - { name: doctrine.event_listener, event: postPersist }
         arguments: [@fridge.subscription.proxy.stripe_plan, '%fridge.subscription.entity.subscription.class%']
+
+    fridge.subscription.listener.card_listener:
+        class: %fridge.subscription.listener.card_listener.class%
+        parent: fridge.subscription.listener.abstract_entity_event_listener
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+        arguments: [@fridge.subscription.proxy.stripe_customer, '%fridge.subscription.entity.card.class%' ]

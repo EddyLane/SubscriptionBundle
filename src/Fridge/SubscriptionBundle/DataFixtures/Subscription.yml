@@ -1,0 +1,16 @@
+Fridge\SubscriptionBundle\Entity\Subscription:
+
+    basic_subscription:
+        name: Basic
+        price: 0.00
+        description: It is basic!
+
+    advanced_subscription:
+        name: Advanced
+        price: 500.00
+        description: It is advanced!
+
+    ultimate_subscription:
+        name: It's god damn ultimate
+        price: 1000.00
+        description: It is just the fucking dogs bollocks

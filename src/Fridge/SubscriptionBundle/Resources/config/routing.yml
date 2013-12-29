@@ -2,3 +2,8 @@ fridge_subscription_subscription:
     resource: "@FridgeSubscriptionBundle/Controller/SubscriptionController.php"
     type:     rest
     prefix:   /
+
+fridge_subscription_card:
+    resource: "@FridgeSubscriptionBundle/Controller/CardController.php"
+    type:     rest
+    prefix:   /

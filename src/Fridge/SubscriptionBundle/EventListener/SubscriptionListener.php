@@ -15,7 +15,7 @@ use Fridge\SubscriptionBundle\Proxy\StripePlan;
  * Class SubscriptionListener
  * @package Fridge\SubscriptionBundle\EventListener
  */
-class SubscriptionListener
+class SubscriptionListener extends AbstractEntityEventListener
 {
     /**
      * @var \Fridge\SubscriptionBundle\Proxy\StripePlan
@@ -38,9 +38,9 @@ class SubscriptionListener
     }
 
     /**
-     * @param LifecycleEventArgs $args
+     * @param LifecycleEventArgs $eventArgs
      */
-    public function postPersist(LifecycleEventArgs $args)
+    public function postPersist(LifecycleEventArgs $eventArgs)
     {
         $entity = $eventArgs->getEntity();
         $em = $eventArgs->getEntityManager();
