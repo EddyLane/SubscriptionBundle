@@ -45,7 +45,7 @@ abstract class AbstractEntityEventListener
     /**
      * @return mixed
      */
-    protected function getSecurityContentUser()
+    protected function getSecurityContextUser()
     {
         return $this->getSecurityContext()->getToken()->getUser();
     }

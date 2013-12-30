@@ -11,6 +11,7 @@ namespace Fridge\SubscriptionBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Fridge\SubscriptionBundle\Entity\Payment;
 use Doctrine\Common\Collections\ArrayCollection;
+use Fridge\SubscriptionBundle\Model\StripeProfileInterface;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
 
@@ -20,7 +21,7 @@ use JMS\Serializer\Annotation\Expose;
  *
  * @ExclusionPolicy("all")
  */
-class StripeProfile
+class StripeProfile implements StripeProfileInterface
 {
 
     /**

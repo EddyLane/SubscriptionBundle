@@ -3,6 +3,7 @@
 namespace Fridge\SubscriptionBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Fridge\SubscriptionBundle\Model\SubscriptionInterface;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
 
@@ -14,7 +15,7 @@ use JMS\Serializer\Annotation\Expose;
  *
  * @ExclusionPolicy("all")
  */
-class Subscription
+class Subscription implements SubscriptionInterface
 {
     /**
      * @var integer

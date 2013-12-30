@@ -8,6 +8,7 @@
 
 namespace Fridge\SubscriptionBundle\EventListener;
 
+use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Fridge\SubscriptionBundle\Proxy\StripePlan;
 
@@ -15,7 +16,7 @@ use Fridge\SubscriptionBundle\Proxy\StripePlan;
  * Class SubscriptionListener
  * @package Fridge\SubscriptionBundle\EventListener
  */
-class SubscriptionListener extends AbstractEntityEventListener
+class SubscriptionListener extends AbstractEntityEventListener implements EventSubscriber
 {
     /**
      * @var \Fridge\SubscriptionBundle\Proxy\StripePlan
@@ -35,6 +36,14 @@ class SubscriptionListener extends AbstractEntityEventListener
     {
         $this->stripePlan = $stripePlan;
         $this->subscriptionClass = $subscriptionClass;
+    }
+
+    /**
+     * @return array
+     */
+    public function getSubscribedEvents()
+    {
+        return ['postPersist', 'preRemove'];
     }
 
     /**
@@ -60,9 +69,15 @@ class SubscriptionListener extends AbstractEntityEventListener
             catch(\Exception $e) {
                 $em->remove($entity);
                 $em->flush();
+                throw $e;
             }
 
         }
+    }
+
+    public function preRemove(LifecycleEventArgs $eventArgs)
+    {
+
     }
 
 } 

@@ -4,6 +4,8 @@ namespace Fridge\SubscriptionBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use Fridge\SubscriptionBundle\Model\CardInterface;
+use Fridge\SubscriptionBundle\Model\StripeProfileInterface;
 use JMS\Serializer\Annotation\Accessor;
 use JMS\Serializer\Annotation\VirtualProperty;
 use JMS\Serializer\Annotation\ExclusionPolicy;
@@ -17,7 +19,7 @@ use Fridge\SubscriptionBundle\Entity\StripeProfile;
  * @ORM\Entity
  * @ExclusionPolicy("all")
  */
-class Card
+class Card implements CardInterface
 {
     const CARD_TYPE_VISA = 1;
     const CARD_TYPE_MASTERCARD = 2;
@@ -287,7 +289,7 @@ class Card
      * @param StripeProfile $stripeProfile
      * @return bool
      */
-    public function belongsTo(StripeProfile $stripeProfile)
+    public function belongsTo(StripeProfileInterface $stripeProfile)
     {
         return $stripeProfile->getId() === $this->getStripeProfile()->getId();
     }

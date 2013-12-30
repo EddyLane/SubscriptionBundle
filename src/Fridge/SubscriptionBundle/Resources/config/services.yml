@@ -72,7 +72,7 @@ services:
         class: %fridge.subscription.listener.subscription_listener.class%
         parent: fridge.subscription.listener.abstract_entity_event_listener
         tags:
-            - { name: doctrine.event_listener, event: postPersist }
+            - { name: doctrine.event_subscriber }
         arguments: [@fridge.subscription.proxy.stripe_plan, '%fridge.subscription.entity.subscription.class%']
 
     fridge.subscription.listener.card_listener:

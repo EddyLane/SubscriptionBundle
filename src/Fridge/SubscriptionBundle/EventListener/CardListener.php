@@ -10,6 +10,7 @@ namespace Fridge\SubscriptionBundle\EventListener;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
+use Fridge\SubscriptionBundle\Exception\FridgeCardDeclinedException;
 use Fridge\SubscriptionBundle\Proxy\StripeCustomer;
 use Fridge\SubscriptionBundle\Proxy\StripePlan;
 use Fridge\SubscriptionBundle\Entity\Card;
@@ -84,7 +85,7 @@ class CardListener extends AbstractEntityEventListener implements EventSubscribe
 
             }
             catch(\Stripe_CardError $e) {
-                throw new \Exception('Cant error bizatch');
+                throw new FridgeCardDeclinedException($e, 400, $e->getMessage());
             }
 
         }
@@ -116,7 +117,7 @@ class CardListener extends AbstractEntityEventListener implements EventSubscribe
 
             }
             catch(\Stripe_CardError $e) {
-                throw new CardDeclinedException($e->getMessage());
+                throw new FridgeCardDeclinedException($e, 400, $e->getMessage());
             }
         }
     }

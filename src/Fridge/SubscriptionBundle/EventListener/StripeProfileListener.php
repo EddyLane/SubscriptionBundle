@@ -11,6 +11,7 @@ namespace Fridge\SubscriptionBundle\EventListener;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
+use Fridge\SubscriptionBundle\Exception\FridgeCardDeclinedException;
 use Symfony\Component\DependencyInjection\Container;
 use Fridge\SubscriptionBundle\Proxy\StripeCustomer;
 use Doctrine\ORM\EntityManager;
@@ -55,7 +56,31 @@ class StripeProfileListener extends AbstractEntityEventListener implements Event
         $entityClass = $em->getClassMetadata(get_class($entity))->getName();
 
         if($entityClass === $this->profileClass) {
+
+            if(!$entity->getStripeId() || !$eventArgs->hasChangedField('subscription')) {
+                return;
+            }
+
+            try {
+                $customer = $this
+                    ->stripeCustomer
+                    ->retrieve($entity->getStripeId())
+                ;
+
+                $subscriptionData = $customer->updateSubscription([
+                    "plan" => $entity->getSubscription()->getId(),
+                    "prorate" => true
+                ]);
+
+                $entity->setSubscriptionStart(new \DateTime('@' . $subscriptionData['current_period_start']));
+                $entity->setSubscriptionEnd(new \DateTime('@' . $subscriptionData['current_period_end']));
+
+            }
+            catch(\Stripe_CardError $e) {
+                throw new FridgeCardDeclinedException($e, 400, $e->getMessage());
+            }
         }
+
     }
 
     /**
@@ -78,7 +103,7 @@ class StripeProfileListener extends AbstractEntityEventListener implements Event
 
             }
             catch(\Stripe_CardError $e) {
-                throw $e;
+                throw new FridgeCardDeclinedException($e, 400, $e->getMessage());
             }
 
         }
