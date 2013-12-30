@@ -36,7 +36,7 @@ class StripeProfile
     protected $stripeId;
 
     /**
-     * @ORM\OneToMany(targetEntity="Fridge\SubscriptionBundle\Entity\Payment", mappedBy="user", cascade={"all"})
+     * @ORM\OneToMany(targetEntity="Fridge\SubscriptionBundle\Entity\Payment", mappedBy="stripeProfile", cascade={"all"})
      *
      * @var ArrayCollection $payments
      */
@@ -54,7 +54,7 @@ class StripeProfile
     /**
      * @ORM\OneToMany(targetEntity="Fridge\SubscriptionBundle\Entity\Card", mappedBy="user", cascade={"all"})
      * @Expose
-     * @ORM\OrderBy({"created" = "DESC"})
+     * @ORM\OrderBy({"id" = "DESC"})
      * @var ArrayCollection $cards
      */
     protected $cards;
@@ -78,6 +78,14 @@ class StripeProfile
     {
         $this->cards = new ArrayCollection();
         $this->payments = new ArrayCollection();
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 
     /**
@@ -160,6 +168,19 @@ class StripeProfile
     public function getCards()
     {
         return $this->cards;
+    }
+
+    /**
+     * @param Card $card
+     * @return $this
+     */
+    public function addCard(Card $card)
+    {
+        $this->cards->add($card);
+
+        $card->setStripeProfile($this);
+
+        return $this;
     }
 
     /**

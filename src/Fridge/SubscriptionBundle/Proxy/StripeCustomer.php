@@ -8,6 +8,8 @@
 
 namespace Fridge\SubscriptionBundle\Proxy;
 
+use Stripe_Customer;
+
 class StripeCustomer extends AbstractStripeProxy
 {
     /**

@@ -23,7 +23,7 @@ class SubscriptionController extends ContainerAware
 
         $subscriptions = $manager->findAll();
 
-        return $this->handleView($manager);
+        return $this->handleView($subscriptions);
     }
 
     /**
@@ -60,7 +60,7 @@ class SubscriptionController extends ContainerAware
     protected function handleView($data)
     {
         $view = View::create($data);
-
+        $view->setFormat('json');
         return $this->container->get('fos_rest.view_handler')->handle($view);
     }
 

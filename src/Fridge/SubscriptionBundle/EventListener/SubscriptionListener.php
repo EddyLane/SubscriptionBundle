@@ -48,13 +48,20 @@ class SubscriptionListener extends AbstractEntityEventListener
 
         if($entityClass === $this->subscriptionClass)
         {
-            $this->stripePlan->create([
-                "amount" => $entity->getPrice(),
-                "interval" => "month",
-                "name" => $entity->getDescription(),
-                "currency" => "gbp",
-                "id" => $entity->getId()
-            ]);
+            try {
+                $this->stripePlan->create([
+                    "amount" => $entity->getPrice(),
+                    "interval" => "month",
+                    "name" => $entity->getDescription(),
+                    "currency" => "gbp",
+                    "id" => $entity->getId()
+                ]);
+            }
+            catch(\Exception $e) {
+                $em->remove($entity);
+                $em->flush();
+            }
+
         }
     }
 

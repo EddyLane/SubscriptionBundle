@@ -2,10 +2,14 @@
 
 namespace Fridge\SubscriptionBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\DependencyInjection\ContainerAware;
-use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Request\ParamFetcher;
 use FOS\RestBundle\Controller\Annotations\RequestParam;
+use FOS\RestBundle\View\View;
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
 
 /**
  * Class CardController
@@ -20,15 +24,17 @@ class CardController extends ContainerAware
      */
     public function deleteCardAction($id)
     {
-        $cardManager = $this->container->get('uvd.payment.card_manager');
+        $cardManager = $this->container->get('fridge.subscription.manager.card_manager');
 
         $card = $cardManager->find($id);
 
-        if(!$card || !$card->belongsTo($this->getUser())) {
+        if(!$card || !$card->belongsTo($this->getUser()->getStripeProfile())) {
             throw new HttpException(403, 'Forbidden');
         }
 
         $cardManager->remove($card, true);
+
+        return $this->handleView();
     }
 
     /**
@@ -40,18 +46,34 @@ class CardController extends ContainerAware
     }
 
     /**
-     * @RequestParam(name="token", description="Stripe token.")
-     * @View(statusCode=201)
+     * @param Request $request
+     * @return mixed
      */
-    public function postCardAction(ParamFetcher $paramFetcher)
+    public function postCardAction(Request $request)
     {
-        $cardManager = $this->container->get('uvd.payment.card_manager');
+        $cardManager = $this->container->get('fridge.subscription.manager.card_manager');
 
-        $card = $cardManager->create($paramFetcher->get('token'));
+        $card = $cardManager->create($request->request->get('token'));
 
-        $cardManager->save($card, true);
+        $user = $this->getUser();
 
-        return $card;
+        $user->getStripeProfile()->addCard($card);
+
+        $em = $this->container->get('doctrine')->getManager();
+
+        $em->persist($user);
+
+        $em->flush();
+
+        return $this->handleView($card);
+    }
+
+    /**
+     * @return mixed
+     */
+    protected function getUser()
+    {
+        return $this->container->get('security.context')->getToken()->getUser();
     }
 
     /**
@@ -60,10 +82,10 @@ class CardController extends ContainerAware
      * @param $data
      * @return mixed
      */
-    protected function handleView($data)
+    protected function handleView($data = null)
     {
         $view = View::create($data);
-
+        $view->setFormat('json');
         return $this->container->get('fos_rest.view_handler')->handle($view);
     }
 } 

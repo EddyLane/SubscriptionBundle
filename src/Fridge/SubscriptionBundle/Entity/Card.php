@@ -8,7 +8,6 @@ use JMS\Serializer\Annotation\Accessor;
 use JMS\Serializer\Annotation\VirtualProperty;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
-use Gedmo\Mapping\Annotation\Timestampable;
 use Fridge\SubscriptionBundle\Entity\StripeProfile;
 
 /**
@@ -89,15 +88,6 @@ class Card
      * @ORM\Column(name="token", type="string")
      */
     private $token;
-
-
-    /**
-     * @var datetime $created
-     *
-     * @Timestampable(on="create")
-     * @ORM\Column(type="datetime")
-     */
-    protected $created;
 
     /**
      * @var User
@@ -253,10 +243,9 @@ class Card
     }
 
     /**
-     * @param User $user
      * @return $this
      */
-    public function setUser(User $user)
+    public function setStripeProfile($user)
     {
         $this->user = $user;
 
@@ -291,7 +280,7 @@ class Card
      */
     public function getStripeProfile()
     {
-        return $this->stripeProfile;
+        return $this->user;
     }
 
     /**

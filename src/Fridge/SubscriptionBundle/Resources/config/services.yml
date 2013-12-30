@@ -65,8 +65,7 @@ services:
         class: %fridge.subscription.listener.stripe_profile_listener.class%
         parent: fridge.subscription.listener.abstract_entity_event_listener
         tags:
-            - { name: doctrine.event_listener, event: preUpdate }
-            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_subscriber }
         arguments: [@fridge.subscription.proxy.stripe_customer, '%fridge.subscription.entity.stripe_profile.class%' ]
 
     fridge.subscription.listener.subscription_listener:
@@ -80,5 +79,5 @@ services:
         class: %fridge.subscription.listener.card_listener.class%
         parent: fridge.subscription.listener.abstract_entity_event_listener
         tags:
-            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_subscriber }
         arguments: [@fridge.subscription.proxy.stripe_customer, '%fridge.subscription.entity.card.class%' ]

@@ -37,7 +37,7 @@ abstract class AbstractEntityEventListener
     /**
      * @return object
      */
-    protected function getSecurityContext()
+    private function getSecurityContext()
     {
         return $this->container->get('security.context');
     }
@@ -45,7 +45,7 @@ abstract class AbstractEntityEventListener
     /**
      * @return mixed
      */
-    protected function getUser()
+    protected function getSecurityContentUser()
     {
         return $this->getSecurityContext()->getToken()->getUser();
     }

@@ -8,13 +8,14 @@
 
 namespace Fridge\SubscriptionBundle\EventListener;
 
+use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Symfony\Component\DependencyInjection\Container;
 use Fridge\SubscriptionBundle\Proxy\StripeCustomer;
 use Doctrine\ORM\EntityManager;
 
-class StripeProfileListener extends AbstractEntityEventListener
+class StripeProfileListener extends AbstractEntityEventListener implements EventSubscriber
 {
     /**
      * @var \Fridge\SubscriptionBundle\Proxy\StripeCustomer
@@ -25,6 +26,14 @@ class StripeProfileListener extends AbstractEntityEventListener
      * @var string
      */
     protected $profileClass;
+
+    /**
+     * @return array
+     */
+    public function getSubscribedEvents()
+    {
+        return ['prePersist', 'preUpdate'];
+    }
 
     /**
      * @param StripeCustomer $stripeCustomer
@@ -46,7 +55,6 @@ class StripeProfileListener extends AbstractEntityEventListener
         $entityClass = $em->getClassMetadata(get_class($entity))->getName();
 
         if($entityClass === $this->profileClass) {
-            die('PROFILE CLASS BABY. PREUPDATE');
         }
     }
 
@@ -60,7 +68,19 @@ class StripeProfileListener extends AbstractEntityEventListener
         $entityClass = $em->getClassMetadata(get_class($entity))->getName();
 
         if($entityClass === $this->profileClass) {
-            die('PROFILE CLASS BABY. PREPERSIST');
+
+            try {
+                $stripeResponse = $this->stripeCustomer->create([
+                    'description' => 'customer'
+                ]);
+
+                $entity->setStripeId($stripeResponse['id']);
+
+            }
+            catch(\Stripe_CardError $e) {
+                throw $e;
+            }
+
         }
     }
 
