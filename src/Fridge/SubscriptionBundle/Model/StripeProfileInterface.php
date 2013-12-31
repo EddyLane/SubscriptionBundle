@@ -30,7 +30,7 @@ interface StripeProfileInterface
 
     /**
      * @param \DateTime $subscriptionEnd
-     * @return $this
+     *                                   @return $this
      */
     public function setSubscriptionEnd(\DateTime $subscriptionEnd = null);
 
@@ -56,7 +56,7 @@ interface StripeProfileInterface
 
     /**
      * @param Card $card
-     * @return $this
+     *                   @return $this
      */
     public function addCard(Card $card);
 
@@ -67,13 +67,13 @@ interface StripeProfileInterface
 
     /**
      * @param \DateTime $subscriptionStart
-     * @return $this
+     *                                     @return $this
      */
     public function setSubscriptionStart(\DateTime $subscriptionStart = null);
 
     /**
      * @param Subscription $subscription
-     * @return $this
+     *                                   @return $this
      */
     public function setSubscription(Subscription $subscription = null);
 
@@ -85,7 +85,7 @@ interface StripeProfileInterface
 
     /**
      * @param Payment $payment
-     * @return $this
+     *                         @return $this
      */
     public function addPayment(Payment $payment);
 }

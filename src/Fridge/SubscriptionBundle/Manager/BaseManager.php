@@ -56,20 +56,20 @@ class BaseManager implements ManagerInterface
      */
     public function getRepository()
     {
-        if( $this->repository == null) {
+        if ($this->repository == null) {
             return $this->getEntityManager()->getRepository($this->className);
-        }else {
+        } else {
             return $this->repository;
         }
     }
 
     /**
-     * @param null $constructWith
+     * @param  null  $constructWith
      * @return mixed
      */
     public function create($constructWith = null)
     {
-        if(!is_null($constructWith)){
+        if (!is_null($constructWith)) {
             return new $this->className($constructWith);
         }
 

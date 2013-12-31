@@ -30,7 +30,7 @@ class SubscriptionListener extends AbstractEntityEventListener implements EventS
 
     /**
      * @param StripeCustomer $stripeCustomer
-     * @param $subscriptionClass
+     *                                       @param $subscriptionClass
      */
     public function __construct(StripePlan $stripePlan, $subscriptionClass)
     {
@@ -55,8 +55,7 @@ class SubscriptionListener extends AbstractEntityEventListener implements EventS
         $em = $eventArgs->getEntityManager();
         $entityClass = $em->getClassMetadata(get_class($entity))->getName();
 
-        if($entityClass === $this->subscriptionClass)
-        {
+        if ($entityClass === $this->subscriptionClass) {
             try {
                 $this->stripePlan->create([
                     "amount" => $entity->getPrice(),
@@ -65,8 +64,7 @@ class SubscriptionListener extends AbstractEntityEventListener implements EventS
                     "currency" => "gbp",
                     "id" => $entity->getId()
                 ]);
-            }
-            catch(\Exception $e) {
+            } catch (\Exception $e) {
                 $em->remove($entity);
                 $em->flush();
                 throw $e;
@@ -75,9 +73,19 @@ class SubscriptionListener extends AbstractEntityEventListener implements EventS
         }
     }
 
+    /**
+     * @param LifecycleEventArgs $eventArgs
+     */
     public function preRemove(LifecycleEventArgs $eventArgs)
     {
+        $entity = $eventArgs->getEntity();
+        $em = $eventArgs->getEntityManager();
+        $entityClass = $em->getClassMetadata(get_class($entity))->getName();
 
+        if ($entityClass === $this->subscriptionClass) {
+            $plan = $this->stripePlan->retrieve($entity->getId());
+            $plan->delete();
+        }
     }
 
-} 
+}

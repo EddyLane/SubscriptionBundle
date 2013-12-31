@@ -22,11 +22,11 @@ class StripeCustomer extends AbstractStripeProxy
     }
 
     /**
-     * @param array $data
+     * @param  array $data
      * @return mixed
      */
     public function create(array $data)
     {
         return Stripe_Customer::create($data);
     }
-} 
+}

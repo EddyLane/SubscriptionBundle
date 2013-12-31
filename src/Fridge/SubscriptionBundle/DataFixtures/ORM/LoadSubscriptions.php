@@ -17,7 +17,6 @@ class LoadSubscriptions extends Loader
         'Fridge/SubscriptionBundle/DataFixtures/Subscription.yml'
     ];
 
-
     /**
      * @param ObjectManager $manager
      */

@@ -19,7 +19,7 @@ interface CardInterface
     public function setStripeProfile($user);
 
     /**
-     * @param StripeProfile $stripeProfile
+     * @param  StripeProfile $stripeProfile
      * @return bool
      */
     public function belongsTo(StripeProfileInterface $stripeProfile);
@@ -27,7 +27,7 @@ interface CardInterface
     /**
      * Set cardType
      *
-     * @param integer $cardType
+     * @param  integer $cardType
      * @return Card
      */
     public function setCardType($cardType);
@@ -78,7 +78,7 @@ interface CardInterface
     /**
      * Set number
      *
-     * @param string $number
+     * @param  string $number
      * @return Card
      */
     public function setNumber($number);

@@ -106,10 +106,9 @@ class Card implements CardInterface
      */
     protected $payments;
 
-
     public function __construct($token = null)
     {
-        if(!is_null($token)) {
+        if (!is_null($token)) {
             $this->setToken($token);
         }
     }
@@ -120,7 +119,7 @@ class Card implements CardInterface
      */
     public static function mapCardType($name)
     {
-        switch(strtolower($name)) {
+        switch (strtolower($name)) {
             case 'visa':
                 return self::CARD_TYPE_VISA;
             case 'american express':
@@ -135,7 +134,7 @@ class Card implements CardInterface
 
     public static function mapCardTypeName($type)
     {
-        switch($type) {
+        switch ($type) {
             case 1:
                 return self::CARD_NAME_VISA;
             case 2:
@@ -146,7 +145,7 @@ class Card implements CardInterface
 
     public static function mapCardFormat($type)
     {
-        switch($type) {
+        switch ($type) {
             case 1:
                 return self::CARD_FORMAT_VISA;
             case 2:
@@ -160,13 +159,12 @@ class Card implements CardInterface
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
     }
-
 
     /**
      * @param $token
@@ -190,7 +188,7 @@ class Card implements CardInterface
     /**
      * Set number
      *
-     * @param string $number
+     * @param  string $number
      * @return Card
      */
     public function setNumber($number)
@@ -203,18 +201,19 @@ class Card implements CardInterface
     /**
      * Get number
      *
-     * @return string 
+     * @return string
      */
     public function getNumber()
     {
         $format = self::mapCardFormat($this->cardType);
+
         return substr_replace($format, $this->number, - strlen($this->number));
     }
 
     /**
      * Set cardType
      *
-     * @param integer $cardType
+     * @param  integer $cardType
      * @return Card
      */
     public function setCardType($cardType)
@@ -227,13 +226,12 @@ class Card implements CardInterface
     /**
      * Get cardType
      *
-     * @return integer 
+     * @return integer
      */
     public function getCardType()
     {
         return $this->cardType;
     }
-
 
     /**
      * @VirtualProperty
@@ -276,7 +274,6 @@ class Card implements CardInterface
         return $this;
     }
 
-
     /**
      * @return StripeProfile
      */
@@ -286,11 +283,16 @@ class Card implements CardInterface
     }
 
     /**
-     * @param StripeProfile $stripeProfile
+     * @param  StripeProfile $stripeProfile
      * @return bool
      */
     public function belongsTo(StripeProfileInterface $stripeProfile)
     {
         return $stripeProfile->getId() === $this->getStripeProfile()->getId();
+    }
+
+    public function getClassName()
+    {
+        return get_class($this);
     }
 }

@@ -12,9 +12,7 @@ use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Fridge\SubscriptionBundle\Exception\FridgeCardDeclinedException;
-use Symfony\Component\DependencyInjection\Container;
 use Fridge\SubscriptionBundle\Proxy\StripeCustomer;
-use Doctrine\ORM\EntityManager;
 
 class StripeProfileListener extends AbstractEntityEventListener implements EventSubscriber
 {
@@ -38,7 +36,7 @@ class StripeProfileListener extends AbstractEntityEventListener implements Event
 
     /**
      * @param StripeCustomer $stripeCustomer
-     * @param $profileClass
+     *                                       @param $profileClass
      */
     public function __construct(StripeCustomer $stripeCustomer, $profileClass)
     {
@@ -55,9 +53,9 @@ class StripeProfileListener extends AbstractEntityEventListener implements Event
         $em = $eventArgs->getEntityManager();
         $entityClass = $em->getClassMetadata(get_class($entity))->getName();
 
-        if($entityClass === $this->profileClass) {
+        if ($entityClass === $this->profileClass) {
 
-            if(!$entity->getStripeId() || !$eventArgs->hasChangedField('subscription')) {
+            if (!$entity->getStripeId() || !$eventArgs->hasChangedField('subscription')) {
                 return;
             }
 
@@ -75,8 +73,7 @@ class StripeProfileListener extends AbstractEntityEventListener implements Event
                 $entity->setSubscriptionStart(new \DateTime('@' . $subscriptionData['current_period_start']));
                 $entity->setSubscriptionEnd(new \DateTime('@' . $subscriptionData['current_period_end']));
 
-            }
-            catch(\Stripe_CardError $e) {
+            } catch (\Stripe_CardError $e) {
                 throw new FridgeCardDeclinedException($e, 400, $e->getMessage());
             }
         }
@@ -92,7 +89,7 @@ class StripeProfileListener extends AbstractEntityEventListener implements Event
         $em = $eventArgs->getEntityManager();
         $entityClass = $em->getClassMetadata(get_class($entity))->getName();
 
-        if($entityClass === $this->profileClass) {
+        if ($entityClass === $this->profileClass) {
 
             try {
                 $stripeResponse = $this->stripeCustomer->create([
@@ -101,8 +98,7 @@ class StripeProfileListener extends AbstractEntityEventListener implements Event
 
                 $entity->setStripeId($stripeResponse['id']);
 
-            }
-            catch(\Stripe_CardError $e) {
+            } catch (\Stripe_CardError $e) {
                 throw new FridgeCardDeclinedException($e, 400, $e->getMessage());
             }
 

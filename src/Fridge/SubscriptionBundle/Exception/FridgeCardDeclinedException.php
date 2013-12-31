@@ -14,4 +14,4 @@ class FridgeCardDeclinedException extends AbstractFridgeSubscriptionException
     {
         return 'card';
     }
-} 
+}

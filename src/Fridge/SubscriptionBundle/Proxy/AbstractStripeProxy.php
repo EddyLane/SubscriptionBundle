@@ -19,4 +19,4 @@ abstract class AbstractStripeProxy
     {
         Stripe::setApiKey($apiKey);
     }
-} 
+}

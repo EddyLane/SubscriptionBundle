@@ -25,7 +25,7 @@ interface SubscriptionInterface
     /**
      * Set description
      *
-     * @param string $description
+     * @param  string       $description
      * @return Subscription
      */
     public function setDescription($description);
@@ -40,7 +40,7 @@ interface SubscriptionInterface
     /**
      * Set price
      *
-     * @param string $price
+     * @param  string       $price
      * @return Subscription
      */
     public function setPrice($price);
@@ -62,7 +62,7 @@ interface SubscriptionInterface
     /**
      * Set name
      *
-     * @param string $name
+     * @param  string       $name
      * @return Subscription
      */
     public function setName($name);

@@ -77,7 +77,7 @@ class Payment
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -91,7 +91,7 @@ class Payment
      */
     public function __construct(array $data = null)
     {
-        if(is_null($data)) {
+        if (is_null($data)) {
             return;
         }
 
@@ -117,35 +117,34 @@ class Payment
     /**
      * Set token
      *
-     * @param string $token
+     * @param  string     $token
      * @return Payment
      * @throws \Exception
      */
     public function setToken($token)
     {
-        if(!is_string($token)) {
+        if (!is_string($token)) {
             throw new \InvalidArgumentException(sprintf('Token must be a string. %s given', $token));
         }
 
         $this->token = $token;
-    
+
         return $this;
     }
 
     /**
      * Get token
      *
-     * @return string 
+     * @return string
      */
     public function getToken()
     {
         return $this->token;
     }
 
-
     /**
      * @param StripeProfile $user
-     * @return $this
+     *                            @return $this
      */
     public function setStripeProfile(StripeProfile $user)
     {
@@ -161,6 +160,7 @@ class Payment
     public function setCard($card)
     {
         $this->card = $card;
+
         return $this;
     }
 
@@ -174,11 +174,12 @@ class Payment
 
     /**
      * @param Subscription $subscription
-     * @return $this
+     *                                   @return $this
      */
     public function setSubscription(Subscription $subscription)
     {
         $this->subscription = $subscription;
+
         return $this;
     }
 
@@ -198,7 +199,6 @@ class Payment
         return $this->stripeProfile;
     }
 
-
     /**
      * Sets the success of this payment
      *
@@ -208,7 +208,7 @@ class Payment
      */
     public function setCompleted($completed)
     {
-        if(!is_bool($completed)) {
+        if (!is_bool($completed)) {
             throw new \InvalidArgumentException(sprintf('Completed must be a boolean. \'%s\' given', $completed));
         }
 
@@ -226,7 +226,8 @@ class Payment
     {
         return $this->completed;
     }
-
-
-
+    public function getClassName()
+    {
+        return get_class($this);
+    }
 }

@@ -17,4 +17,4 @@ use Fridge\SubscriptionBundle\Manager\BaseManager;
 class CardManager extends BaseManager
 {
 
-} 
+}

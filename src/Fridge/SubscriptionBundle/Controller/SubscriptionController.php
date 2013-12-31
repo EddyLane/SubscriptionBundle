@@ -61,7 +61,8 @@ class SubscriptionController extends ContainerAware
     {
         $view = View::create($data);
         $view->setFormat('json');
+
         return $this->container->get('fos_rest.view_handler')->handle($view);
     }
 
-} 
+}

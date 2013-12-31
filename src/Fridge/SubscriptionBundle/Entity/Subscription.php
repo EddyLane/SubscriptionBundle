@@ -57,7 +57,7 @@ class Subscription implements SubscriptionInterface
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -67,7 +67,7 @@ class Subscription implements SubscriptionInterface
     /**
      * Set name
      *
-     * @param string $name
+     * @param  string       $name
      * @return Subscription
      */
     public function setName($name)
@@ -80,7 +80,7 @@ class Subscription implements SubscriptionInterface
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -90,7 +90,7 @@ class Subscription implements SubscriptionInterface
     /**
      * Set price
      *
-     * @param string $price
+     * @param  string       $price
      * @return Subscription
      */
     public function setPrice($price)
@@ -103,7 +103,7 @@ class Subscription implements SubscriptionInterface
     /**
      * Get price
      *
-     * @return string 
+     * @return string
      */
     public function getPrice()
     {
@@ -113,7 +113,7 @@ class Subscription implements SubscriptionInterface
     /**
      * Set description
      *
-     * @param string $description
+     * @param  string       $description
      * @return Subscription
      */
     public function setDescription($description)
@@ -126,7 +126,7 @@ class Subscription implements SubscriptionInterface
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -142,5 +142,8 @@ class Subscription implements SubscriptionInterface
     {
         return $this->getName();
     }
-
+    public function getClassName()
+    {
+        return get_class($this);
+    }
 }

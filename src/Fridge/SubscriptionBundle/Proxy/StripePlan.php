@@ -13,7 +13,7 @@ use Stripe_Plan;
 class StripePlan extends AbstractStripeProxy
 {
     /**
-     * @param array $data
+     * @param  array $data
      * @return mixed
      */
     public function create(array $data)

@@ -4,12 +4,9 @@ namespace Fridge\SubscriptionBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\DependencyInjection\ContainerAware;
-use FOS\RestBundle\Request\ParamFetcher;
-use FOS\RestBundle\Controller\Annotations\RequestParam;
 use FOS\RestBundle\View\View;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 
 /**
  * Class CardController
@@ -28,7 +25,7 @@ class CardController extends ContainerAware
 
         $card = $cardManager->find($id);
 
-        if(!$card || !$card->belongsTo($this->getUser()->getStripeProfile())) {
+        if (!$card || !$card->belongsTo($this->getUser()->getStripeProfile())) {
             throw new HttpException(403, 'Forbidden');
         }
 
@@ -46,7 +43,7 @@ class CardController extends ContainerAware
     }
 
     /**
-     * @param Request $request
+     * @param  Request $request
      * @return mixed
      */
     public function postCardAction(Request $request)
@@ -86,6 +83,7 @@ class CardController extends ContainerAware
     {
         $view = View::create($data);
         $view->setFormat('json');
+
         return $this->container->get('fos_rest.view_handler')->handle($view);
     }
-} 
+}

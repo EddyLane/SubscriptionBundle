@@ -44,4 +44,4 @@ abstract class AbstractFridgeSubscriptionException extends HttpException
      * @return string
      */
     abstract public function getType();
-} 
+}

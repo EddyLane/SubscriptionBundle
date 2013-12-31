@@ -50,4 +50,4 @@ abstract class AbstractEntityEventListener
         return $this->getSecurityContext()->getToken()->getUser();
     }
 
-} 
+}

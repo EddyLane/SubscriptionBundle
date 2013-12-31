@@ -74,7 +74,6 @@ class StripeProfile implements StripeProfileInterface
      */
     protected $subscriptionEnd;
 
-
     public function __construct()
     {
         $this->cards = new ArrayCollection();
@@ -91,11 +90,12 @@ class StripeProfile implements StripeProfileInterface
 
     /**
      * @param \DateTime $subscriptionEnd
-     * @return $this
+     *                                   @return $this
      */
     public function setSubscriptionEnd(\DateTime $subscriptionEnd = null)
     {
         $this->subscriptionEnd = $subscriptionEnd;
+
         return $this;
     }
 
@@ -109,11 +109,12 @@ class StripeProfile implements StripeProfileInterface
 
     /**
      * @param \DateTime $subscriptionStart
-     * @return $this
+     *                                     @return $this
      */
     public function setSubscriptionStart(\DateTime $subscriptionStart = null)
     {
         $this->subscriptionStart = $subscriptionStart;
+
         return $this;
     }
 
@@ -127,7 +128,7 @@ class StripeProfile implements StripeProfileInterface
 
     /**
      * @param Payment $payment
-     * @return $this
+     *                         @return $this
      */
     public function addPayment(Payment $payment)
     {
@@ -173,7 +174,7 @@ class StripeProfile implements StripeProfileInterface
 
     /**
      * @param Card $card
-     * @return $this
+     *                   @return $this
      */
     public function addCard(Card $card)
     {
@@ -186,7 +187,7 @@ class StripeProfile implements StripeProfileInterface
 
     /**
      * @param Subscription $subscription
-     * @return $this
+     *                                   @return $this
      */
     public function setSubscription(Subscription $subscription = null)
     {
@@ -202,5 +203,8 @@ class StripeProfile implements StripeProfileInterface
     {
         return $this->subscription;
     }
-
+    public function getClassName()
+    {
+        return get_class($this);
+    }
 }

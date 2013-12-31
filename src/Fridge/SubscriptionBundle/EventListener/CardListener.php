@@ -12,7 +12,6 @@ use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Fridge\SubscriptionBundle\Exception\FridgeCardDeclinedException;
 use Fridge\SubscriptionBundle\Proxy\StripeCustomer;
-use Fridge\SubscriptionBundle\Proxy\StripePlan;
 use Fridge\SubscriptionBundle\Entity\Card;
 use Stripe_CardError;
 
@@ -50,18 +49,17 @@ class CardListener extends AbstractEntityEventListener implements EventSubscribe
         $this->cardClass = $cardClass;
     }
 
-
     /**
-     * @param LifecycleEventArgs $eventArgs
+     * @param  LifecycleEventArgs $eventArgs
      * @throws \Exception
      */
     public function prePersist(LifecycleEventArgs $eventArgs)
     {
         $entity = $eventArgs->getEntity();
         $em = $eventArgs->getEntityManager();
-        $entityClass = $em->getClassMetadata(get_class($entity))->getName();
+        $entityClass = $em->getClassMetadata($entity->getClassName())->getName();
 
-        if($entityClass === $this->cardClass) {
+        if ($entityClass === $this->cardClass) {
 
             try {
 
@@ -83,16 +81,15 @@ class CardListener extends AbstractEntityEventListener implements EventSubscribe
                     ->setExpYear($cardData['exp_year'])
                 ;
 
-            }
-            catch(\Stripe_CardError $e) {
-                throw new FridgeCardDeclinedException($e, 400, $e->getMessage());
+            } catch (\Stripe_CardError $e) {
+                throw new FridgeCardDeclinedException($e, 402, $e->getMessage());
             }
 
         }
     }
 
     /**
-     * @param LifecycleEventArgs $eventArgs
+     * @param  LifecycleEventArgs    $eventArgs
      * @throws CardDeclinedException
      */
     public function preRemove(LifecycleEventArgs $eventArgs)
@@ -101,7 +98,7 @@ class CardListener extends AbstractEntityEventListener implements EventSubscribe
         $em = $eventArgs->getEntityManager();
         $entityClass = $em->getClassMetadata(get_class($entity))->getName();
 
-        if($entityClass === $this->cardClass) {
+        if ($entityClass === $this->cardClass) {
             try {
 
                 $customer = $this
@@ -115,12 +112,10 @@ class CardListener extends AbstractEntityEventListener implements EventSubscribe
                     ->delete()
                 ;
 
-            }
-            catch(\Stripe_CardError $e) {
-                throw new FridgeCardDeclinedException($e, 400, $e->getMessage());
+            } catch (\Stripe_CardError $e) {
+                throw new FridgeCardDeclinedException($e, 402, $e->getMessage());
             }
         }
     }
 
-
-} 
+}
