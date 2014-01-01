@@ -11,6 +11,7 @@ namespace Fridge\SubscriptionBundle\EventListener;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Fridge\SubscriptionBundle\Exception\FridgeCardDeclinedException;
+use Fridge\SubscriptionBundle\Factory\OperationFactory;
 use Fridge\SubscriptionBundle\Proxy\StripeCustomer;
 use Fridge\SubscriptionBundle\Entity\Card;
 use Stripe_CardError;
@@ -21,15 +22,6 @@ use Stripe_CardError;
  */
 class CardListener extends AbstractEntityEventListener implements EventSubscriber
 {
-    /**
-     * @var \Fridge\SubscriptionBundle\Proxy\StripeCustomer
-     */
-    protected $stripeCustomer;
-
-    /**
-     * @var string
-     */
-    protected $cardClass;
 
     /**
      * @return array
@@ -40,50 +32,16 @@ class CardListener extends AbstractEntityEventListener implements EventSubscribe
     }
 
     /**
-     * @param StripeCustomer $stripeCustomer
-     * @param $cardClass
-     */
-    public function __construct(StripeCustomer $stripeCustomer, $cardClass)
-    {
-        $this->stripeCustomer = $stripeCustomer;
-        $this->cardClass = $cardClass;
-    }
-
-    /**
      * @param  LifecycleEventArgs $eventArgs
      * @throws \Exception
      */
     public function prePersist(LifecycleEventArgs $eventArgs)
     {
-        $entity = $eventArgs->getEntity();
-        $em = $eventArgs->getEntityManager();
-        $entityClass = $em->getClassMetadata($entity->getClassName())->getName();
+        if ($this->matchesEntityClass($eventArgs)) {
 
-        if ($entityClass === $this->cardClass) {
-
-            try {
-
-                $customer = $this
-                    ->stripeCustomer
-                    ->retrieve($entity->getStripeProfile()->getStripeId())
-                ;
-
-                $cardData = $customer
-                    ->cards
-                    ->create([ 'card' => $entity->getToken() ])
-                ;
-
-                $entity
-                    ->setToken($cardData['id'])
-                    ->setCardType(Card::mapCardType($cardData['type']))
-                    ->setNumber($cardData['last4'])
-                    ->setExpMonth($cardData['exp_month'])
-                    ->setExpYear($cardData['exp_year'])
-                ;
-
-            } catch (\Stripe_CardError $e) {
-                throw new FridgeCardDeclinedException($e, 402, $e->getMessage());
-            }
+            $this->operationFactory
+                ->get('card.create')
+                ->getResult($eventArgs->getEntity());
 
         }
     }
@@ -94,27 +52,12 @@ class CardListener extends AbstractEntityEventListener implements EventSubscribe
      */
     public function preRemove(LifecycleEventArgs $eventArgs)
     {
-        $entity = $eventArgs->getEntity();
-        $em = $eventArgs->getEntityManager();
-        $entityClass = $em->getClassMetadata(get_class($entity))->getName();
+        if ($this->matchesEntityClass($eventArgs)) {
 
-        if ($entityClass === $this->cardClass) {
-            try {
+            $this->operationFactory
+                 ->get('card.remove')
+                 ->getResult($eventArgs->getEntity());
 
-                $customer = $this
-                    ->stripeCustomer
-                    ->retrieve($entity->getStripeProfile()->getStripeId())
-                ;
-
-                $customer
-                    ->cards
-                    ->retrieve($entity->getToken())
-                    ->delete()
-                ;
-
-            } catch (\Stripe_CardError $e) {
-                throw new FridgeCardDeclinedException($e, 402, $e->getMessage());
-            }
         }
     }
 

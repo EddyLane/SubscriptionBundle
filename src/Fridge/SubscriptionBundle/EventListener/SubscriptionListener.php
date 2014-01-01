@@ -18,25 +18,6 @@ use Fridge\SubscriptionBundle\Proxy\StripePlan;
  */
 class SubscriptionListener extends AbstractEntityEventListener implements EventSubscriber
 {
-    /**
-     * @var \Fridge\SubscriptionBundle\Proxy\StripePlan
-     */
-    protected $stripePlan;
-
-    /**
-     * @var string
-     */
-    protected $subscriptionClass;
-
-    /**
-     * @param StripeCustomer $stripeCustomer
-     *                                       @param $subscriptionClass
-     */
-    public function __construct(StripePlan $stripePlan, $subscriptionClass)
-    {
-        $this->stripePlan = $stripePlan;
-        $this->subscriptionClass = $subscriptionClass;
-    }
 
     /**
      * @return array
@@ -51,21 +32,16 @@ class SubscriptionListener extends AbstractEntityEventListener implements EventS
      */
     public function postPersist(LifecycleEventArgs $eventArgs)
     {
-        $entity = $eventArgs->getEntity();
-        $em = $eventArgs->getEntityManager();
-        $entityClass = $em->getClassMetadata(get_class($entity))->getName();
+        if ($this->matchesEntityClass($eventArgs)) {
 
-        if ($entityClass === $this->subscriptionClass) {
             try {
-                $this->stripePlan->create([
-                    "amount" => $entity->getPrice(),
-                    "interval" => "month",
-                    "name" => $entity->getDescription(),
-                    "currency" => "gbp",
-                    "id" => $entity->getId()
-                ]);
-            } catch (\Exception $e) {
-                $em->remove($entity);
+                $this->operationFactory
+                    ->get('plan.create')
+                    ->getResult($eventArgs->getEntity());
+            }
+            catch(\Exception $e) {
+                $em = $eventArgs->getEntityManager();
+                $em->remove($subscription);
                 $em->flush();
                 throw $e;
             }
@@ -78,13 +54,12 @@ class SubscriptionListener extends AbstractEntityEventListener implements EventS
      */
     public function preRemove(LifecycleEventArgs $eventArgs)
     {
-        $entity = $eventArgs->getEntity();
-        $em = $eventArgs->getEntityManager();
-        $entityClass = $em->getClassMetadata(get_class($entity))->getName();
+        if ($this->matchesEntityClass($eventArgs)) {
 
-        if ($entityClass === $this->subscriptionClass) {
-            $plan = $this->stripePlan->retrieve($entity->getId());
-            $plan->delete();
+            $this->operationFactory
+                ->get('plan.remove')
+                ->gerResult($eventArgs->getEntity());
+
         }
     }
 

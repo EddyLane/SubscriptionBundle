@@ -8,6 +8,7 @@
 
 namespace Fridge\SubscriptionBundle\EventListener;
 
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -17,37 +18,41 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 abstract class AbstractEntityEventListener
 {
     /**
-     * @var ContainerInterface
+     * @var OperationFactory
      */
-    private $container;
+    protected $operationFactory;
 
     /**
-     * @var SecurityContextInterface
+     * @var string
      */
-    protected $securityContext;
+    protected $entityClass;
 
     /**
-     * @param Container $container
+     * @param $entityClass
      */
-    public function setContainer(ContainerInterface $container)
+    public function setEntityClass($entityClass)
     {
-        $this->container = $container;
+        $this->entityClass = $entityClass;
     }
 
     /**
-     * @return object
+     * @param OperationFactory $operationFactory
      */
-    private function getSecurityContext()
+    public function __construct(OperationFactory $operationFactory)
     {
-        return $this->container->get('security.context');
+        $this->operationFactory = $operationFactory;
     }
 
     /**
-     * @return mixed
+     * @param $entity
+     * @return bool
      */
-    protected function getSecurityContextUser()
+    protected function matchesEntityClass(LifecycleEventArgs $eventArgs)
     {
-        return $this->getSecurityContext()->getToken()->getUser();
-    }
+        $entity = $eventArgs->getEntity();
+        $em = $eventArgs->getEntityManager();
+        $entityClass = $em->getClassMetadata(get_class($entity))->getName();
 
+        return $this->entityClass === $entityClass;
+    }
 }

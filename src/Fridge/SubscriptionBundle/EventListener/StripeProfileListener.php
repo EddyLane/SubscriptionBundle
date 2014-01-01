@@ -16,15 +16,6 @@ use Fridge\SubscriptionBundle\Proxy\StripeCustomer;
 
 class StripeProfileListener extends AbstractEntityEventListener implements EventSubscriber
 {
-    /**
-     * @var \Fridge\SubscriptionBundle\Proxy\StripeCustomer
-     */
-    protected $stripeCustomer;
-
-    /**
-     * @var string
-     */
-    protected $profileClass;
 
     /**
      * @return array
@@ -35,49 +26,17 @@ class StripeProfileListener extends AbstractEntityEventListener implements Event
     }
 
     /**
-     * @param StripeCustomer $stripeCustomer
-     *                                       @param $profileClass
-     */
-    public function __construct(StripeCustomer $stripeCustomer, $profileClass)
-    {
-        $this->stripeCustomer = $stripeCustomer;
-        $this->profileClass = $profileClass;
-    }
-
-    /**
      * @param PreUpdateEventArgs $eventArgs
      */
     public function preUpdate(PreUpdateEventArgs $eventArgs)
     {
-        $entity = $eventArgs->getEntity();
-        $em = $eventArgs->getEntityManager();
-        $entityClass = $em->getClassMetadata(get_class($entity))->getName();
+        if($this->matchesEntityClass($eventArgs) && $eventArgs->hasChangedField('subscription')) {
 
-        if ($entityClass === $this->profileClass) {
+            $this->operationFactory
+                ->get('subscription,update')
+                ->getResult($eventArgs->getEntity());
 
-            if (!$entity->getStripeId() || !$eventArgs->hasChangedField('subscription')) {
-                return;
-            }
-
-            try {
-                $customer = $this
-                    ->stripeCustomer
-                    ->retrieve($entity->getStripeId())
-                ;
-
-                $subscriptionData = $customer->updateSubscription([
-                    "plan" => $entity->getSubscription()->getId(),
-                    "prorate" => true
-                ]);
-
-                $entity->setSubscriptionStart(new \DateTime('@' . $subscriptionData['current_period_start']));
-                $entity->setSubscriptionEnd(new \DateTime('@' . $subscriptionData['current_period_end']));
-
-            } catch (\Stripe_CardError $e) {
-                throw new FridgeCardDeclinedException($e, 400, $e->getMessage());
-            }
         }
-
     }
 
     /**
@@ -85,22 +44,11 @@ class StripeProfileListener extends AbstractEntityEventListener implements Event
      */
     public function prePersist(LifecycleEventArgs $eventArgs)
     {
-        $entity = $eventArgs->getEntity();
-        $em = $eventArgs->getEntityManager();
-        $entityClass = $em->getClassMetadata(get_class($entity))->getName();
+        if ($this->matchesEntityClass($eventArgs)) {
 
-        if ($entityClass === $this->profileClass) {
-
-            try {
-                $stripeResponse = $this->stripeCustomer->create([
-                    'description' => 'customer'
-                ]);
-
-                $entity->setStripeId($stripeResponse['id']);
-
-            } catch (\Stripe_CardError $e) {
-                throw new FridgeCardDeclinedException($e, 400, $e->getMessage());
-            }
+            $this->operationFactory
+                 ->get('customer.create')
+                 ->getResult($eventArgs->getEntity());
 
         }
     }

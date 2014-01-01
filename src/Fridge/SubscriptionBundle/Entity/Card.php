@@ -218,7 +218,7 @@ class Card implements CardInterface
      */
     public function setCardType($cardType)
     {
-        $this->cardType = $cardType;
+        $this->cardType = self::mapCardType($cardType);
 
         return $this;
     }
