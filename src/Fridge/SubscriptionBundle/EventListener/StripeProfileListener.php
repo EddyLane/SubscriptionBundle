@@ -32,9 +32,19 @@ class StripeProfileListener extends AbstractEntityEventListener implements Event
     {
         if($this->matchesEntityClass($eventArgs) && $eventArgs->hasChangedField('subscription')) {
 
-            $this->operationFactory
-                ->get('subscription,update')
-                ->getResult($eventArgs->getEntity());
+            if(is_null($eventArgs->getEntity()->getSubscription())) {
+
+                $this->operationFactory
+                    ->get('subscription.remove')
+                    ->getResult($eventArgs->getEntity());
+
+            } else {
+
+                $this->operationFactory
+                    ->get('subscription.update')
+                    ->getResult($eventArgs->getEntity());
+
+            }
 
         }
     }

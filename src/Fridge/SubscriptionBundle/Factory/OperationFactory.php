@@ -59,6 +59,8 @@ class OperationFactory
             //Subscriptions
             case 'subscription.update':
                 return new Operation\UpdateSubscriptionOperation($this->stripeCustomer, $this->stripePlan);
+            case 'subscription.remove':
+                return new Operation\RemoveSubscriptionOperation($this->stripeCustomer, $this->stripePlan);
 
             default:
                 throw new \InvalidArgumentException('Unknown operation ' . $operation);

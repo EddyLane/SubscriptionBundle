@@ -13,9 +13,17 @@ use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+/**
+ * Class WebhookController
+ * @package Fridge\SubscriptionBundle\Controller
+ */
 class WebhookController extends ContainerAware
 {
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function postWebhookAction(Request $request)
     {
         $content = json_decode($request->getContent(), true);

@@ -3,10 +3,12 @@ parameters:
     fridge.subscription.manager.base_manager.class:                     Fridge\SubscriptionBundle\Manager\BaseManager
     fridge.subscription.manager.subscription_manager.class:             Fridge\SubscriptionBundle\Manager\SubscriptionManager
     fridge.subscription.manager.card_manager.class:                     Fridge\SubscriptionBundle\Manager\CardManager
+    fridge.subscription.manager.stripe_profile_manager.class:           Fridge\SubscriptionBundle\Manager\StripeProfileManager
 
     fridge.subscription.entity.subscription.class:                      Fridge\SubscriptionBundle\Entity\Subscription
     fridge.subscription.entity.stripe_profile.class:                    Fridge\SubscriptionBundle\Entity\StripeProfile
     fridge.subscription.entity.card.class:                              Fridge\SubscriptionBundle\Entity\Card
+    fridge.subscription.entity.stripe_profile.class:                    Fridge\SubscriptionBundle\Entity\StripeProfile
 
     fridge.subscription.proxy.abstract_stripe_proxy.class:              Fridge\SubscriptionBundle\Proxy\AbstractStripeProxy
     fridge.subscription.proxy.stripe_customer.class:                    Fridge\SubscriptionBundle\Proxy\StripeCustomer
@@ -69,11 +71,16 @@ services:
         parent: fridge.subscription.manager.base_manager
         arguments: [%fridge.subscription.entity.card.class%]
 
+    fridge.subscription.manager.stripe_profile_manager:
+        class: %fridge.subscription.manager.stripe_profile_manager.class%
+        parent: fridge.subscription.manager.base_manager
+        arguments: [%fridge.subscription.entity.stripe_profile.class%]
+
     #Listeners
 
     fridge.subscription.listener.webhook_lister:
         class: %fridge.subscription.listener.webhook_lister.class%
-        arguments: [@logger, @fridge.subscription.proxy.stripe_event]
+        arguments: [@logger, @fridge.subscription.proxy.stripe_event, @fridge.subscription.factory.operation_factory, @fridge.subscription.manager.stripe_profile_manager]
         tags:
             - { name: kernel.event_subscriber }
 
