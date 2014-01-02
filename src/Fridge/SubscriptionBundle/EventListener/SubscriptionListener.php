@@ -10,6 +10,7 @@ namespace Fridge\SubscriptionBundle\EventListener;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
+use Fridge\SubscriptionBundle\Exception\UpdateSubscriptionException;
 use Fridge\SubscriptionBundle\Proxy\StripePlan;
 
 /**
@@ -24,7 +25,7 @@ class SubscriptionListener extends AbstractEntityEventListener implements EventS
      */
     public function getSubscribedEvents()
     {
-        return ['postPersist', 'preRemove'];
+        return ['postPersist', 'preRemove', 'preUpdate'];
     }
 
     /**
@@ -47,6 +48,11 @@ class SubscriptionListener extends AbstractEntityEventListener implements EventS
             }
 
         }
+    }
+
+    public function preUpdate(LifecycleEventArgs $eventArgs)
+    {
+        throw new UpdateSubscriptionException;
     }
 
     /**

@@ -39,13 +39,12 @@ EOT
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $subscriptionManager = $this->getContainer()->get('fridge.subscription.manager.subscription_manager');
-        $subscription = $subscriptionManager->create();
-        $subscription->setName($input->getArgument('name'));
-        $subscription->setPrice($input->getArgument('price'));
-        $subscription->setDescription($input->getArgument('description'));
-
         try {
+            $subscriptionManager = $this->getContainer()->get('fridge.subscription.manager.subscription_manager');
+            $subscription = $subscriptionManager->create();
+            $subscription->setName($input->getArgument('name'));
+            $subscription->setPrice($input->getArgument('price'));
+            $subscription->setDescription($input->getArgument('description'));
             $subscriptionManager->save($subscription, true);
             $output->writeln('<info>Plan successfully created and persisted to Stripe</info>');
         }
