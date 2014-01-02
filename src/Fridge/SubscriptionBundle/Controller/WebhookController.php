@@ -8,15 +8,26 @@
 
 namespace Fridge\SubscriptionBundle\Controller;
 
-
+use Fridge\SubscriptionBundle\Event\StripeWebhookEvent;
 use Symfony\Component\DependencyInjection\ContainerAware;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class WebhookController extends ContainerAware
 {
 
-    public function postWebhookAction()
+    public function postWebhookAction(Request $request)
     {
+        $content = json_decode($request->getContent(), true);
 
+        $event = is_array($content) && isset($content['type']) ? $content['type'] : 'unknown';
+
+        $this->container->get('event_dispatcher')->dispatch(
+            'fridge.stripe_event.' . $event,
+            new StripeWebhookEvent($event, $content)
+        );
+
+        return new JsonResponse([], 200);
     }
 
 } 
