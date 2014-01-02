@@ -26,7 +26,7 @@ services:
 
     fridge.subscription.factory.operation_factory:
         class: %fridge.subscription.factory.operation_factory.class%
-        arguments: [@fridge.subscription.proxy.stripe_customer]
+        arguments: [@fridge.subscription.proxy.stripe_customer, @fridge.subscription.proxy.stripe_plan]
 
     #Proxies
 

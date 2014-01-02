@@ -10,6 +10,8 @@ namespace Fridge\SubscriptionBundle\EventListener;
 
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Fridge\SubscriptionBundle\Factory\OperationFactory;
+use Doctrine\ORM\Event\LifecycleEventArgs;
 
 /**
  * Class AbstractEntityEventListener

@@ -10,6 +10,7 @@ namespace Fridge\SubscriptionBundle\Operation;
 
 use Fridge\SubscriptionBundle\Model\StripeProfileInterface;
 use Fridge\SubscriptionBundle\Proxy\StripeCustomer;
+use Fridge\SubscriptionBundle\Proxy\StripePlan;
 
 /**
  * Class AbstractOperation
@@ -23,11 +24,18 @@ abstract class AbstractOperation
     protected $stripeCustomer;
 
     /**
-     * @param StripeCustomer $stripeCustomer
+     * @var \Fridge\SubscriptionBundle\Proxy\StripePlan
      */
-    public function __construct(StripeCustomer $stripeCustomer)
+    protected $stripePlan;
+
+    /**
+     * @param StripeCustomer $stripeCustomer
+     * @param StripePlan $stripePlan
+     */
+    public function __construct(StripeCustomer $stripeCustomer, StripePlan $stripePlan)
     {
         $this->stripeCustomer = $stripeCustomer;
+        $this->stripePlan = $stripePlan;
     }
 
     /**

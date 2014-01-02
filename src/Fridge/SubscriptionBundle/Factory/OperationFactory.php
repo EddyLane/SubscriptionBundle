@@ -48,17 +48,17 @@ class OperationFactory
         switch($operation) {
             //Cards
             case 'card.create':
-                return new Operation\CreateCardOperation($this->stripeCustomer);
+                return new Operation\CreateCardOperation($this->stripeCustomer, $this->stripePlan);
             case 'card.remove':
-                return new Operation\RemoveCardOperation($this->stripeCustomer);
+                return new Operation\RemoveCardOperation($this->stripeCustomer, $this->stripePlan);
             //Plans
             case 'plan.create':
-                return new Operation\CreatePlanOperation($this->stripePlan);
+                return new Operation\CreatePlanOperation($this->stripeCustomer, $this->stripePlan);
             case 'plan.remove':
-                return new Operation\RemovePlanOperation($this->stripePlan);
+                return new Operation\RemovePlanOperation($this->stripeCustomer, $this->stripePlan);
             //Subscriptions
             case 'subscription.update':
-                return new Operation\UpdateSubscriptionOperation($this->stripeCustomer);
+                return new Operation\UpdateSubscriptionOperation($this->stripeCustomer, $this->stripePlan);
 
             default:
                 throw new \InvalidArgumentException('Unknown operation ' . $operation);

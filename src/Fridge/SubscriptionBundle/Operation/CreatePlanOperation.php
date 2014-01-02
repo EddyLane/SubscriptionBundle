@@ -27,7 +27,5 @@ class CreatePlanOperation extends AbstractOperation
             "currency" => "gbp",
             "id" => $subscription->getId()
         ]);
-
     }
-
 }
