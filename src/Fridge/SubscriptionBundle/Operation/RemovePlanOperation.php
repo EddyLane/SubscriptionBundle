@@ -16,6 +16,10 @@ class RemovePlanOperation extends AbstractOperation
 
     public function getResult(SubscriptionInterface $subscription)
     {
+        if(!$subscription->getId()) {
+            throw new \ErrorException('Subscription must have been persisted');
+        }
+
         $plan = $this->stripePlan->retrieve($subscription->getId());
         $plan->delete();
     }

@@ -25,7 +25,7 @@ class SubscriptionListener extends AbstractEntityEventListener implements EventS
      */
     public function getSubscribedEvents()
     {
-        return ['postPersist', 'preRemove', 'preUpdate'];
+        return ['postPersist', 'preRemove'];
     }
 
     /**
@@ -50,10 +50,10 @@ class SubscriptionListener extends AbstractEntityEventListener implements EventS
         }
     }
 
-    public function preUpdate(LifecycleEventArgs $eventArgs)
-    {
-        throw new UpdateSubscriptionException;
-    }
+//    public function preUpdate(LifecycleEventArgs $eventArgs)
+//    {
+//        throw new UpdateSubscriptionException;
+//    }
 
     /**
      * @param LifecycleEventArgs $eventArgs
