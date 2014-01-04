@@ -13,6 +13,27 @@ namespace Fridge\SubscriptionBundle\Model;
  */
 interface CardInterface
 {
+    const CARD_TYPE_VISA = 1;
+    const CARD_TYPE_MASTERCARD = 2;
+    const CARD_TYPE_AMERICAN_EXPRESS = 3;
+    const CARD_TYPE_DISCOVER = 4;
+    const CARD_TYPE_DINERS_CLUB = 5;
+    const CARD_TYPE_JCB = 6;
+
+    const CARD_NAME_VISA = 'Visa';
+    const CARD_NAME_MASTERCARD = 'Mastercard';
+    const CARD_NAME_AMERICAN_EXPRESS = 'American Express';
+    const CARD_NAME_DISCOVER = 'Discover';
+    const CARD_NAME_DINERS_CLUB = 'Diners Club';
+    const CARD_NAME_JCB = 'JCB';
+
+    const CARD_FORMAT_VISA = '**** **** **** ****';
+    const CARD_FORMAT_MASTERCARD = '**** **** **** ****';
+    const CARD_FORMAT_AMERICAN_EXPRESS = '**** ****** *****';
+    const CARD_FORMAT_DISCOVER = '**** **** **** ****';
+    const CARD_FORMAT_DINERS_CLUB = '**** **** **** ****';
+    const CARD_FORMAT_JCB = '**** **** **** ****';
+
     /**
      * @return $this
      */

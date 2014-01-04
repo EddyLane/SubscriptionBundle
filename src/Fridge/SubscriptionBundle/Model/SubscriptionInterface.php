@@ -7,8 +7,6 @@
  */
 namespace Fridge\SubscriptionBundle\Model;
 
-use Fridge\SubscriptionBundle\Entity\Subscription;
-
 /**
  * Interface SubscriptionInterface
  * @package Fridge\SubscriptionBundle\Model

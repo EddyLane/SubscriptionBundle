@@ -7,10 +7,8 @@
  */
 namespace Fridge\SubscriptionBundle\Model;
 
-use Fridge\SubscriptionBundle\Entity\Card;
+use Fridge\SubscriptionBundle\Model\CardInterface;
 use Doctrine\Common\Collections\ArrayCollection;
-use Fridge\SubscriptionBundle\Entity\Subscription;
-use Fridge\SubscriptionBundle\Entity\Payment;
 
 /**
  * Interface StripeProfileInterface
@@ -58,7 +56,7 @@ interface StripeProfileInterface
      * @param Card $card
      *                   @return $this
      */
-    public function addCard(Card $card);
+    public function addCard(CardInterface $card);
 
     /**
      * @return ArrayCollection
@@ -75,17 +73,11 @@ interface StripeProfileInterface
      * @param Subscription $subscription
      *                                   @return $this
      */
-    public function setSubscription(Subscription $subscription = null);
+    public function setSubscription(SubscriptionInterface $subscription = null);
 
     /**
      * @param $stripeId
      * @return $this
      */
     public function setStripeId($stripeId);
-
-    /**
-     * @param Payment $payment
-     *                         @return $this
-     */
-    public function addPayment(Payment $payment);
 }
