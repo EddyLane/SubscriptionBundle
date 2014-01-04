@@ -32,7 +32,7 @@ class RemovePlanOperationTest extends PHPUnit_Framework_TestCase
 
         $subscriptionStub = $this->getMock('Fridge\SubscriptionBundle\Entity\Subscription');
 
-        $subscriptionStub->expects($this->once())
+        $subscriptionStub->expects($this->atLeastOnce())
                          ->method('getId')
                          ->will($this->returnValue(null));
 
@@ -47,11 +47,11 @@ class RemovePlanOperationTest extends PHPUnit_Framework_TestCase
             ->method('getId')
             ->will($this->returnValue(1));
 
-        $subscriptionStub->expects($this->once())
+        $subscriptionStub->expects($this->atLeastOnce())
             ->method('getPrice')
             ->will($this->returnValue(10000));
 
-        $subscriptionStub->expects($this->once())
+        $subscriptionStub->expects($this->atLeastOnce())
             ->method('getDescription')
             ->will($this->returnValue("A description"));
 

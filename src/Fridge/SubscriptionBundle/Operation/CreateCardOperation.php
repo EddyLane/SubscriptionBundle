@@ -39,11 +39,11 @@ class CreateCardOperation extends AbstractOperation
         }
 
         $card
-            ->setToken($cardData->id)
-            ->setCardType($cardData->type)
-            ->setNumber($cardData->last4)
-            ->setExpMonth($cardData->exp_month)
-            ->setExpYear($cardData->exp_year);
+            ->setToken($cardData['id'])
+            ->setCardType($cardData['type'])
+            ->setNumber($cardData['last4'])
+            ->setExpMonth($cardData['exp_month'])
+            ->setExpYear($cardData['exp_year']);
     }
 
 } 

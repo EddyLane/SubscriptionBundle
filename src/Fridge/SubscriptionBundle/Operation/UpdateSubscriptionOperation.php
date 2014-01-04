@@ -30,5 +30,6 @@ class UpdateSubscriptionOperation extends AbstractOperation
         } catch (\Stripe_CardError $e) {
             throw new FridgeCardDeclinedException($e, 400, $e->getMessage());
         }
+
     }
 } 
