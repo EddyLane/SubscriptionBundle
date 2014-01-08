@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/EddyLane/SubscriptionBundle.png?branch=master)](https://travis-ci.org/EddyLane/SubscriptionBundle)
+
 FridgeSubscriptionBundle
 ========================
 
