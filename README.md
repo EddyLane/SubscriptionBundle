@@ -5,6 +5,7 @@ FridgeSubscriptionBundle
 
 > This bundle is still in active development and is not ready for production.
 > Both the documentation for this bundle and the bundle itself are still very much a work in progress.
+> More information coming soon
 
 ## Introuction
 
