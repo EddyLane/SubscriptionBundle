@@ -1,15 +1,3 @@
-fridge_subscription_subscription:
-    resource: "@FridgeSubscriptionBundle/Controller/SubscriptionController.php"
-    type:     rest
-    prefix:   /
-    defaults: { _format: 'json' }
-
-fridge_subscription_card:
-    resource: "@FridgeSubscriptionBundle/Controller/CardController.php"
-    type:     rest
-    prefix:   /
-    defaults: { _format: 'json' }
-
 fridge_subscription_webhook:
     resource: "@FridgeSubscriptionBundle/Controller/WebhookController.php"
     type:     rest

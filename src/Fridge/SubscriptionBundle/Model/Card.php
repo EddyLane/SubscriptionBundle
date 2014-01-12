@@ -14,7 +14,6 @@ use JMS\Serializer\Annotation\Expose;
 /**
  * Card
  *
- * @ORM\Entity
  * @ORM\MappedSuperclass
  * @ExclusionPolicy("all")
  */
@@ -27,7 +26,7 @@ abstract class Card implements CardInterface
      * @Accessor(getter="getNumber")
      * @ORM\Column(name="number", type="string", length=4)
      */
-    private $number;
+    protected $number;
 
     /**
      * @var integer
@@ -36,7 +35,7 @@ abstract class Card implements CardInterface
      * @Accessor(getter="getCardType")
      * @ORM\Column(name="card_type", type="smallint")
      */
-    private $cardType;
+    protected $cardType;
 
     /**
      * @var integer
@@ -44,7 +43,7 @@ abstract class Card implements CardInterface
      * @Expose
      * @ORM\Column(name="exp_month", type="integer")
      */
-    private $expMonth;
+    protected $expMonth;
 
     /**
      * @var integer
@@ -52,13 +51,13 @@ abstract class Card implements CardInterface
      * @Expose
      * @ORM\Column(name="exp_year", type="integer")
      */
-    private $expYear;
+    protected $expYear;
 
     /**
      * @var string
      * @ORM\Column(name="token", type="string")
      */
-    private $token;
+    protected $token;
 
 
     public function __construct($token = null)
@@ -227,6 +226,22 @@ abstract class Card implements CardInterface
         $this->expYear = $expYear;
 
         return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getExpMonth()
+    {
+        return $this->expMonth;
+    }
+
+    /**
+     * @return int
+     */
+    public function getExpYear()
+    {
+        return $this->expYear;
     }
 
     /**

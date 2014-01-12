@@ -4,13 +4,17 @@ namespace Fridge\SubscriptionBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Fridge\SubscriptionBundle\Model\Card as BaseCard;
-
+use JMS\Serializer\Annotation\Accessor;
+use JMS\Serializer\Annotation\VirtualProperty;
+use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
 
 /**
  * Class Card
  * @package Fridge\SubscriptionBundle\Entity
+ *
  * @ORM\Table("fridge_subscription_card")
+ * @ExclusionPolicy("all")
  * @ORM\Entity
  */
 class Card extends BaseCard
@@ -27,8 +31,16 @@ class Card extends BaseCard
     /**
      * @var User
      *
-     * @ORM\ManyToOne(targetEntity="Fridge\SubscriptionBundle\Entity\StripeProfile", inversedBy="cards")
-     * @ORM\JoinColumn(name="stripe_profile_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Fridge\SubscriptionBundle\Entity\StripeProfile", inversedBy="cards", cascade={"persist"})
+     * @ORM\JoinColumn(name="stripe_profile_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $user;
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 }

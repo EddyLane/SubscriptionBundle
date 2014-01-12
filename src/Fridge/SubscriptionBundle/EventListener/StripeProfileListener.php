@@ -56,9 +56,22 @@ class StripeProfileListener extends AbstractEntityEventListener implements Event
     {
         if ($this->matchesEntityClass($eventArgs)) {
 
-            $this->operationFactory
-                 ->get('customer.create')
-                 ->getResult($eventArgs->getEntity());
+            $entity = $eventArgs->getEntity();
+
+            if($entity->getCards()->count() > 0) {
+
+                $this->operationFactory
+                    ->get('customer_and_card.create')
+                    ->getResult($entity->getCards()->first());
+
+            } else {
+
+                $this->operationFactory
+                    ->get('customer.create')
+                    ->getResult($entity);
+
+            }
+
 
         }
     }

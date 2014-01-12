@@ -46,6 +46,14 @@ class OperationFactory
     public function get($operation)
     {
         switch($operation) {
+
+            //Customer
+            case 'customer.create':
+                return new Operation\CreateCustomerOperation($this->stripeCustomer, $this->stripePlan);
+
+            case 'customer_and_card.create':
+                return new Operation\CreateCustomerAndCardOperation($this->stripeCustomer, $this->stripePlan);
+
             //Cards
             case 'card.create':
                 return new Operation\CreateCardOperation($this->stripeCustomer, $this->stripePlan);

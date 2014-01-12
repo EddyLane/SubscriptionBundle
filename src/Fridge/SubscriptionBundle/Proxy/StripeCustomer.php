@@ -25,7 +25,7 @@ class StripeCustomer extends AbstractStripeProxy
      * @param  array $data
      * @return mixed
      */
-    public function create(array $data)
+    public function create($data)
     {
         return Stripe_Customer::create($data);
     }

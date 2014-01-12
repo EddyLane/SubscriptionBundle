@@ -17,7 +17,6 @@ use JMS\Serializer\Annotation\Expose;
 
 
 /**
- * @ORM\Entity
  * @ORM\MappedSuperclass
  * @ExclusionPolicy("all")
  */

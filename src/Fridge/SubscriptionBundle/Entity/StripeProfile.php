@@ -15,6 +15,7 @@ use Fridge\SubscriptionBundle\Model\StripeProfile as BaseStripeProfile;
 /**
  * Class StripeProfile
  * @package Fridge\SubscriptionBundle\Entity
+ *
  * @ORM\Table(name="fridge_subscription_stripe_profile")
  * @ORM\Entity
  */
