@@ -101,17 +101,6 @@ abstract class StripeProfile implements StripeProfileInterface
     }
 
     /**
-     * @param Payment $payment
-     *                         @return $this
-     */
-    public function addPayment(Payment $payment)
-    {
-        $this->payments[] = $payment;
-
-        return $this;
-    }
-
-    /**
      * @return String
      */
     public function getStripeId()
@@ -128,14 +117,6 @@ abstract class StripeProfile implements StripeProfileInterface
         $this->stripeId = $stripeId;
 
         return $this;
-    }
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getPayments()
-    {
-        return $this->payments;
     }
 
     /**

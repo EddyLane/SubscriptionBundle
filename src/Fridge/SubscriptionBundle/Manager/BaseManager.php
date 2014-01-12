@@ -3,7 +3,6 @@
 namespace Fridge\SubscriptionBundle\Manager;
 
 use Symfony\Component\Security\Core\SecurityContext;
-
 /**
  * Class BaseManager
  * @package Fridge\SubscriptionBundle\Manager
@@ -177,6 +176,15 @@ class BaseManager implements ManagerInterface
     public function find($id)
     {
         return $this->getRepository()->find($id);
+    }
+
+    /**
+     * @param array $params
+     * @return mixed
+     */
+    public function findOneBy($params)
+    {
+        return $this->getRepository()->findOneBy($params);
     }
 
     /**

@@ -16,10 +16,6 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 interface StripeProfileInterface
 {
-    /**
-     * @return ArrayCollection
-     */
-    public function getPayments();
 
     /**
      * @return mixed

@@ -10,6 +10,7 @@ namespace Fridge\SubscriptionBundle\Operation;
 
 use Fridge\SubscriptionBundle\Model\CardInterface;
 use Fridge\SubscriptionBundle\Exception\FridgeCardDeclinedException;
+use Fridge\SubscriptionBundle\Exception\InvalidTokenException;
 
 class CreateCustomerAndCardOperation extends AbstractOperation
 {
@@ -22,6 +23,7 @@ class CreateCustomerAndCardOperation extends AbstractOperation
     {
         try {
 
+
             $customerData = $this->stripeCustomer->create([
                 'card' => $card->getToken()
             ]);
@@ -31,8 +33,11 @@ class CreateCustomerAndCardOperation extends AbstractOperation
             $cardData = $customerData->cards->data[0];
 
         } catch (\Stripe_CardError $e) {
-            throw new FridgeCardDeclinedException($e, 402, $e->getMessage());
+            throw new FridgeCardDeclinedException($e->getMessage(), 402);
         }
+         catch (\Stripe_InvalidRequestError $e) {
+             throw new InvalidTokenException($e->getMessage(), 402);
+         }
 
         $card
             ->setToken($cardData['id'])

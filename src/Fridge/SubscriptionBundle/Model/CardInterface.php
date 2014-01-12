@@ -21,7 +21,7 @@ interface CardInterface
     const CARD_TYPE_JCB = 6;
 
     const CARD_NAME_VISA = 'Visa';
-    const CARD_NAME_MASTERCARD = 'Mastercard';
+    const CARD_NAME_MASTERCARD = 'MasterCard';
     const CARD_NAME_AMERICAN_EXPRESS = 'American Express';
     const CARD_NAME_DISCOVER = 'Discover';
     const CARD_NAME_DINERS_CLUB = 'Diners Club';

@@ -28,17 +28,17 @@ class CardListener extends AbstractEntityEventListener implements EventSubscribe
      */
     public function getSubscribedEvents()
     {
-        return ['preRemove'];
+        return ['prePersist', 'preRemove'];
     }
 
     /**
      * @param  LifecycleEventArgs $eventArgs
      * @throws \Exception
      */
-    public function postPersist(LifecycleEventArgs $eventArgs)
+    public function prePersist(LifecycleEventArgs $eventArgs)
     {
         //Have to check that there is no token incase already been created with a CustomerAndCardCreateOperation
-        if ($this->matchesEntityClass($eventArgs) && !$eventArgs->getEntity()->getToken()) {
+        if ($this->matchesEntityClass($eventArgs) && !$eventArgs->getEntity()->getNumber()) {
 
             $this->operationFactory
                 ->get('card.create')
@@ -53,7 +53,7 @@ class CardListener extends AbstractEntityEventListener implements EventSubscribe
      */
     public function preRemove(LifecycleEventArgs $eventArgs)
     {
-        if ($this->matchesEntityClass($eventArgs)) {
+        if ($this->matchesEntityClass($eventArgs) && $eventArgs->getEntity()->getToken()) {
 
             $this->operationFactory
                  ->get('card.remove')
