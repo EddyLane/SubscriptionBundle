@@ -216,6 +216,7 @@ abstract class Card implements CardInterface
         return self::mapCardTypeName($this->getCardType());
     }
 
+
     /**
      * @return $this
      */
@@ -281,6 +282,9 @@ abstract class Card implements CardInterface
         return $stripeProfile->getId() === $this->getStripeProfile()->getId();
     }
 
+    /**
+     * @return string
+     */
     public function getClassName()
     {
         return get_class($this);

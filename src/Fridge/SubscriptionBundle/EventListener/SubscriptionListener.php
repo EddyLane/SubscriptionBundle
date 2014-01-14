@@ -50,10 +50,6 @@ class SubscriptionListener extends AbstractEntityEventListener implements EventS
         }
     }
 
-//    public function preUpdate(LifecycleEventArgs $eventArgs)
-//    {
-//        throw new UpdateSubscriptionException;
-//    }
 
     /**
      * @param LifecycleEventArgs $eventArgs
@@ -64,7 +60,7 @@ class SubscriptionListener extends AbstractEntityEventListener implements EventS
 
             $this->operationFactory
                 ->get('plan.remove')
-                ->gerResult($eventArgs->getEntity());
+                ->getResult($eventArgs->getEntity());
 
         }
     }

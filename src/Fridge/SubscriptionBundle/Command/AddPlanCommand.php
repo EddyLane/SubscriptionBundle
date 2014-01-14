@@ -32,7 +32,7 @@ class AddPlanCommand extends ContainerAwareCommand
                 new InputArgument('description', InputArgument::REQUIRED, 'The description'),
             ])
             ->setHelp(<<<EOT
-The <info>fridge:plan:create</info> command creates a plan:
+The <info>fridge:plan:create</info> command creates a new subscription entity and persists it to stripe as a plan:
 
   <info>php app/console fridge:plan:create</info>
 

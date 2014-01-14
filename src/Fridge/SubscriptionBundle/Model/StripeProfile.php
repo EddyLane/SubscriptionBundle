@@ -14,7 +14,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Fridge\SubscriptionBundle\Model\StripeProfileInterface;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
-
+use JMS\Serializer\Annotation\Accessor;
 
 /**
  * @ORM\MappedSuperclass
@@ -47,6 +47,7 @@ abstract class StripeProfile implements StripeProfileInterface
      * @Expose
      */
     protected $subscriptionEnd;
+
 
     public function __construct()
     {
@@ -142,7 +143,7 @@ abstract class StripeProfile implements StripeProfileInterface
 
     /**
      * @param Subscription $subscription
-     *                                   @return $this
+     * @return $this
      */
     public function setSubscription(SubscriptionInterface $subscription = null)
     {
@@ -158,6 +159,10 @@ abstract class StripeProfile implements StripeProfileInterface
     {
         return $this->subscription;
     }
+
+    /**
+     * @return string
+     */
     public function getClassName()
     {
         return get_class($this);

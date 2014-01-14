@@ -19,23 +19,23 @@ abstract class Subscription implements SubscriptionInterface
     /**
      * @var string
      * @Expose
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
-    private $name;
+    protected $name;
 
     /**
      * @var string
      * @Expose
      * @ORM\Column(name="price", type="decimal")
      */
-    private $price;
+    protected $price;
 
     /**
      * @var string
      * @Expose
      * @ORM\Column(name="description", type="text")
      */
-    private $description;
+    protected $description;
 
     /**
      * Set name
