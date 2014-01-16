@@ -45,4 +45,16 @@ class Card extends BaseCard
     {
         return $this->id;
     }
+
+    /**
+     * Returns true/false depending on if this card is the associated stripe profiles default card
+     *
+     * @VirtualProperty
+     * @return boolean
+     */
+    public function getDefault()
+    {
+        return is_null($this->user->getDefaultCard()) ? false : $this->user->getDefaultCard()->getId() === $this->getId();
+    }
+
 }

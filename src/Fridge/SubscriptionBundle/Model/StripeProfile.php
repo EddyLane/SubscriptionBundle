@@ -48,6 +48,8 @@ abstract class StripeProfile implements StripeProfileInterface
      */
     protected $subscriptionEnd;
 
+    protected $cards;
+
 
     public function __construct()
     {
@@ -137,6 +139,17 @@ abstract class StripeProfile implements StripeProfileInterface
         $this->cards->add($card);
 
         $card->setStripeProfile($this);
+
+        return $this;
+    }
+
+    /**
+     * @param CardInterface $card
+     * @return $this
+     */
+    public function removeCard(CardInterface $card)
+    {
+        $this->cards->removeElement($card);
 
         return $this;
     }

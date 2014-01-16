@@ -71,7 +71,7 @@ abstract class Card implements CardInterface
      * @param $name
      * @return int
      */
-    public static function mapCardType($name)
+    public final static function mapCardType($name)
     {
         switch (strtolower($name)) {
             case 'visa':
@@ -91,7 +91,7 @@ abstract class Card implements CardInterface
         }
     }
 
-    public static function mapCardTypeName($type)
+    public final static function mapCardTypeName($type)
     {
         switch ($type) {
             case 1:
@@ -111,7 +111,7 @@ abstract class Card implements CardInterface
         }
     }
 
-    public static function mapCardFormat($type)
+    public final static function mapCardFormat($type)
     {
         switch ($type) {
             case 1:
@@ -215,7 +215,6 @@ abstract class Card implements CardInterface
     {
         return self::mapCardTypeName($this->getCardType());
     }
-
 
     /**
      * @return $this

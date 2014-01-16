@@ -15,7 +15,6 @@ use JMS\Serializer\Annotation\Expose;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\VirtualProperty;
 
-
 /**
  * Class StripeProfile
  * @package Fridge\SubscriptionBundle\Entity
@@ -44,7 +43,7 @@ class StripeProfile extends BaseStripeProfile
 
     /**
      * @ORM\OneToOne(targetEntity="Fridge\SubscriptionBundle\Entity\Card", cascade={"all"})
-     * @ORM\JoinColumn(name="default_card_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(name="default_card_id", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $defaultCard;
 
@@ -58,15 +57,6 @@ class StripeProfile extends BaseStripeProfile
 
         return $this;
 
-    }
-
-    /**
-     * @VirtualProperty
-     * @return int
-     */
-    public function getDefaultCardId()
-    {
-        return $this->getDefaultCard()->getId();
     }
 
     /**

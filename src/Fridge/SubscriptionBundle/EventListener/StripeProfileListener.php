@@ -30,23 +30,28 @@ class StripeProfileListener extends AbstractEntityEventListener implements Event
      */
     public function preUpdate(PreUpdateEventArgs $eventArgs)
     {
-        if($this->matchesEntityClass($eventArgs) && $eventArgs->hasChangedField('subscription')) {
-
-            if(is_null($eventArgs->getEntity()->getSubscription())) {
-
-                $this->operationFactory
-                    ->get('subscription.remove')
-                    ->getResult($eventArgs->getEntity());
-
-            } else {
-
-                $this->operationFactory
-                    ->get('subscription.update')
-                    ->getResult($eventArgs->getEntity());
-
-            }
-
+        if(!$this->matchesEntityClass($eventArgs)) {
+            return;
         }
+
+        /*
+         * Remove / Update Subscription
+         */
+        if($eventArgs->hasChangedField('subscription')) {
+            $this->operationFactory
+                ->get(is_null($eventArgs->getEntity()->getSubscription()) ? 'subscription.remove' : 'subscription.update')
+                ->getResult($eventArgs->getEntity());
+        }
+
+        /*
+         * Update Default Card
+         */
+        if($eventArgs->hasChangedField('defaultCard')) {
+            $this->operationFactory
+                ->get('customer.update')
+                ->getResult($eventArgs->getEntity());
+        }
+
     }
 
     /**
