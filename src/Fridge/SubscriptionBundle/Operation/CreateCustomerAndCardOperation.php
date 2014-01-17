@@ -22,13 +22,11 @@ class CreateCustomerAndCardOperation extends AbstractOperation
     public function getResult(CardInterface $card)
     {
         try {
-
-
             $customerData = $this->stripeCustomer->create([
                 'card' => $card->getToken()
             ]);
 
-            $card->getStripeProfile()->setStripeId($customerData['id']);
+            $card->getStripeProfile()->setStripeId($customerData->id);
 
             $cardData = $customerData->cards->data[0];
 
@@ -40,11 +38,11 @@ class CreateCustomerAndCardOperation extends AbstractOperation
          }
 
         $card
-            ->setToken($cardData['id'])
-            ->setCardType($cardData['type'])
-            ->setNumber($cardData['last4'])
-            ->setExpMonth($cardData['exp_month'])
-            ->setExpYear($cardData['exp_year']);
+            ->setToken($cardData->id)
+            ->setCardType($cardData->type)
+            ->setNumber($cardData->last4)
+            ->setExpMonth($cardData->exp_month)
+            ->setExpYear($cardData->exp_year);
     }
 
 } 
