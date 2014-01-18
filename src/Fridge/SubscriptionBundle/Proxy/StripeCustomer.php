@@ -43,6 +43,15 @@ class StripeCustomer extends AbstractStripeProxy
      * @param array $data
      * @return array
      */
+    public function remove(array $data)
+    {
+        return $this->client->deleteCustomer($data);
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     */
     public function updateSubscription(array $data)
     {
         return $this->client->updateSubscription($data);

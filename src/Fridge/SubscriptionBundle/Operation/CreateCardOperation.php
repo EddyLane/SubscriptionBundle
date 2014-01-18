@@ -7,6 +7,7 @@
  */
 
 namespace Fridge\SubscriptionBundle\Operation;
+
 use Fridge\SubscriptionBundle\Model\CardInterface;
 use Fridge\SubscriptionBundle\Proxy\StripeCustomer;
 use Fridge\SubscriptionBundle\Exception\InvalidTokenException;

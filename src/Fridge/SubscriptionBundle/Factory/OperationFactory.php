@@ -59,6 +59,8 @@ class OperationFactory
                 return new Operation\CreateCustomerOperation($this->stripeCustomer, $this->stripePlan, $this->stripeCard);
             case 'customer.update':
                 return new Operation\UpdateCustomerOperation($this->stripeCustomer, $this->stripePlan, $this->stripeCard);
+            case 'customer.remove':
+                return new Operation\RemoveCustomerOperation($this->stripeCustomer, $this->stripePlan, $this->stripeCard);
 
             case 'customer_and_card.create':
                 return new Operation\CreateCustomerAndCardOperation($this->stripeCustomer, $this->stripePlan, $this->stripeCard);

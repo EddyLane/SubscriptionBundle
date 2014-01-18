@@ -22,7 +22,7 @@ class StripeProfileListener extends AbstractEntityEventListener implements Event
      */
     public function getSubscribedEvents()
     {
-        return ['prePersist', 'preUpdate'];
+        return ['prePersist', 'preUpdate', 'preRemove'];
     }
 
     /**
@@ -76,7 +76,19 @@ class StripeProfileListener extends AbstractEntityEventListener implements Event
                     ->getResult($entity);
 
             }
+        }
+    }
 
+    /**
+     * @param LifecycleEventArgs $eventArgs
+     */
+    public function preRemove(LifecycleEventArgs $eventArgs)
+    {
+        if ($this->matchesEntityClass($eventArgs)) {
+
+            $this->operationFactory
+                    ->get('customer.remove')
+                    ->getResult($eventArgs->getEntity());
 
         }
     }

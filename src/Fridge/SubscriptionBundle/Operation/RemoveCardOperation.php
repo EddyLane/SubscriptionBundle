@@ -9,6 +9,7 @@
 namespace Fridge\SubscriptionBundle\Operation;
 
 use Fridge\SubscriptionBundle\Model\CardInterface;
+use Fridge\SubscriptionBundle\Exception\FridgeCardDeclinedException;
 use ZfrStripe\Exception\CardErrorException;
 use ZfrStripe\Exception\ServerErrorException;
 use ZfrStripe\Exception\ValidationErrorException;
