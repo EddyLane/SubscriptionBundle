@@ -9,7 +9,9 @@
 namespace Fridge\SubscriptionBundle\Operation;
 
 use Fridge\SubscriptionBundle\Model\CardInterface;
-
+use ZfrStripe\Exception\CardErrorException;
+use ZfrStripe\Exception\ServerErrorException;
+use ZfrStripe\Exception\ValidationErrorException;
 /**
  * Class RemoveCardOperation
  * @package Fridge\SubscriptionBundle\Operation
@@ -24,17 +26,20 @@ class RemoveCardOperation extends AbstractOperation
     public function getResult(CardInterface $card)
     {
         try {
-            $customer = $this->getCustomer($card->getStripeProfile());
 
-            $customer
-                ->cards
-                ->retrieve($card->getToken())
-                ->delete()
-            ;
+            $this->stripeCard->remove([
+                'id' => $card->getToken(),
+                'customer' => $card->getStripeProfile()->getStripeId()
+            ]);
 
-        } catch (\Stripe_CardError $e) {
-            throw new FridgeCardDeclinedException($e, 402, $e->getMessage());
         }
+        catch (CardErrorException $e) {
+            throw new FridgeCardDeclinedException($e->getMessage(), 402);
+        }
+        catch (ValidationErrorException $e) {
+            throw new FridgeCardDeclinedException($e->getMessage(), 402);
+        }
+
     }
 
 } 

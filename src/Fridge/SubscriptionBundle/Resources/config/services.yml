@@ -14,6 +14,7 @@ parameters:
     fridge.subscription.proxy.stripe_customer.class:                    Fridge\SubscriptionBundle\Proxy\StripeCustomer
     fridge.subscription.proxy.stripe_plan.class:                        Fridge\SubscriptionBundle\Proxy\StripePlan
     fridge.subscription.proxy.stripe_event.class:                       Fridge\SubscriptionBundle\Proxy\StripeEvent
+    fridge.subscription.proxy.stripe_card.class:                        Fridge\SubscriptionBundle\Proxy\StripeCard
 
     fridge.subscription.listener.abstract_entity_event_listener.class:  Fridge\SubscriptionBundle\EventListener\AbstractEntityEventListener
     fridge.subscription.listener.stripe_profile_listener.class:         Fridge\SubscriptionBundle\EventListener\StripeProfileListener
@@ -23,6 +24,8 @@ parameters:
 
     fridge.subscription.factory.operation_factory.class:                Fridge\SubscriptionBundle\Factory\OperationFactory
 
+    zfr.client.stripe_client.class:                                     ZfrStripe\Client\StripeClient
+
 services:
 
 
@@ -30,15 +33,18 @@ services:
 
     fridge.subscription.factory.operation_factory:
         class: %fridge.subscription.factory.operation_factory.class%
-        arguments: [@fridge.subscription.proxy.stripe_customer, @fridge.subscription.proxy.stripe_plan]
+        arguments: [@fridge.subscription.proxy.stripe_customer, @fridge.subscription.proxy.stripe_plan, @fridge.subscription.proxy.stripe_card]
 
     #Proxies
 
+    zfr.client.stripe_client:
+        class: %zfr.client.stripe_client.class%
+        arguments: ['%fridge_subscription.stripe_sk%']
+
     fridge.subscription.proxy.abstract_stripe_proxy:
-        class: %fridge.subscription.proxy.abstract_stripe_proxy.class%
         abstract: true
-        calls:
-            - [ setApiKey, [ '%fridge_subscription.stripe_sk%' ] ]
+        class: %fridge.subscription.proxy.abstract_stripe_proxy.class%
+        arguments: [@zfr.client.stripe_client]
 
     fridge.subscription.proxy.stripe_customer:
         class: %fridge.subscription.proxy.stripe_customer.class%
@@ -50,6 +56,10 @@ services:
 
     fridge.subscription.proxy.stripe_event:
         class: %fridge.subscription.proxy.stripe_event.class%
+        parent: fridge.subscription.proxy.abstract_stripe_proxy
+
+    fridge.subscription.proxy.stripe_card:
+        class: %fridge.subscription.proxy.stripe_card.class%
         parent: fridge.subscription.proxy.abstract_stripe_proxy
 
     #Managers

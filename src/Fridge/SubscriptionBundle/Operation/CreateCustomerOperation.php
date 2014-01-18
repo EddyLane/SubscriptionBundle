@@ -9,6 +9,9 @@
 namespace Fridge\SubscriptionBundle\Operation;
 
 use Fridge\SubscriptionBundle\Model\StripeProfileInterface;
+use ZfrStripe\Exception\CardErrorException;
+use ZfrStripe\Exception\ServerErrorException;
+use ZfrStripe\Exception\ValidationErrorException;
 
 /**
  * Class CreateCustomerOperation

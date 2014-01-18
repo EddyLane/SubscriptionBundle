@@ -9,14 +9,21 @@
 namespace Fridge\SubscriptionBundle\Proxy;
 
 use Stripe;
+use ZfrStripe\Client\StripeClient;
 
 abstract class AbstractStripeProxy
 {
     /**
+     * @var \ZfrStripe\Client\StripeClient
+     */
+    protected $client;
+
+    /**
      * @param $apiKey
      */
-    public function setApiKey($apiKey)
+    public function __construct(StripeClient $client)
     {
-        Stripe::setApiKey($apiKey);
+        $this->client = $client;
     }
+
 }

@@ -23,9 +23,9 @@ class RemoveSubscriptionOperation extends AbstractOperation
      */
     public function getResult(StripeProfileInterface $stripeProfile)
     {
-        $customer = $this->getCustomer($stripeProfile);
-
-        $subscriptionData = $customer->cancelSubscription();
+        $this->stripeCustomer->cancelSubscription([
+            'id' => $stripeProfile->getStripeId()
+        ]);
 
         $stripeProfile->setSubscriptionStart(null);
         $stripeProfile->setSubscriptionEnd(null);

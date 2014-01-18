@@ -17,11 +17,11 @@ use Stripe_Event;
 class StripeEvent extends AbstractStripeProxy
 {
     /**
-     * @param $id
-     * @return mixed
+     * @param array $data
+     * @return array
      */
-    public function retrieve($id)
+    public function retrieve(array $data)
     {
-        return Stripe_Event::retrieve($id);
+        return $this->client->getEvent($data);
     }
 }

@@ -11,6 +11,8 @@ namespace Fridge\SubscriptionBundle\Operation;
 use Fridge\SubscriptionBundle\Model\StripeProfileInterface;
 use Fridge\SubscriptionBundle\Proxy\StripeCustomer;
 use Fridge\SubscriptionBundle\Proxy\StripePlan;
+use Fridge\SubscriptionBundle\Proxy\StripeCard;
+use ZfrStripe\Client\StripeClient;
 
 /**
  * Class AbstractOperation
@@ -24,6 +26,11 @@ abstract class AbstractOperation
     protected $stripeCustomer;
 
     /**
+     * @var \Fridge\SubscriptionBundle\Proxy\StripeCard
+     */
+    protected $stripeCard;
+
+    /**
      * @var \Fridge\SubscriptionBundle\Proxy\StripePlan
      */
     protected $stripePlan;
@@ -31,22 +38,13 @@ abstract class AbstractOperation
     /**
      * @param StripeCustomer $stripeCustomer
      * @param StripePlan $stripePlan
+     * @param StripeCard $stripeCard
      */
-    public function __construct(StripeCustomer $stripeCustomer, StripePlan $stripePlan)
+    public function __construct(StripeCustomer $stripeCustomer, StripePlan $stripePlan, StripeCard $stripeCard)
     {
         $this->stripeCustomer = $stripeCustomer;
         $this->stripePlan = $stripePlan;
-    }
-
-    /**
-     * @param StripeProfileInterface $stripeProfile
-     * @return mixed
-     */
-    protected function getCustomer(StripeProfileInterface $stripeProfile)
-    {
-        return $this
-            ->stripeCustomer
-            ->retrieve($stripeProfile->getStripeId());
+        $this->stripeCard = $stripeCard;
     }
 
 } 

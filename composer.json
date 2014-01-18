@@ -15,7 +15,7 @@
         "jms/serializer-bundle": "*",
         "friendsofsymfony/rest-bundle": "1.1.*@dev",
         "stof/doctrine-extensions-bundle": "~1.1@dev",
-        "stripe/stripe-php": "dev-master"
+        "zfr/zfr-stripe": "1.*"
     },
     "minimum-stability": "dev",
     "autoload": {

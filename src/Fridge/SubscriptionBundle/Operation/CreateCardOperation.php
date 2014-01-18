@@ -7,12 +7,13 @@
  */
 
 namespace Fridge\SubscriptionBundle\Operation;
-
-
 use Fridge\SubscriptionBundle\Model\CardInterface;
 use Fridge\SubscriptionBundle\Proxy\StripeCustomer;
 use Fridge\SubscriptionBundle\Exception\InvalidTokenException;
 use Fridge\SubscriptionBundle\Exception\FridgeCardDeclinedException;
+use ZfrStripe\Exception\CardErrorException;
+use ZfrStripe\Exception\ServerErrorException;
+use ZfrStripe\Exception\ValidationErrorException;
 
 /**
  * Class CreateCardOperation
@@ -29,17 +30,16 @@ class CreateCardOperation extends AbstractOperation
     {
         try {
 
-            $customer = $this->getCustomer($card->getStripeProfile());
+            $cardData = $this->stripeCard->create([
+                'card' => $card->getToken(),
+                'customer' => $card->getStripeProfile()->getStripeId()
+            ]);
 
-            $cardData = $customer
-                ->cards
-                ->create(['card' => $card->getToken()]);
-
-        } catch (\Stripe_CardError $e) {
+        } catch (CardErrorException $e) {
 
             throw new FridgeCardDeclinedException($e->getMessage(), 402);
 
-        } catch (\Stripe_InvalidRequestError $e) {
+        } catch (ValidationErrorException $e) {
 
             throw new InvalidTokenException('Invalid token', 402);
 

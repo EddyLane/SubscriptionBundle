@@ -35,17 +35,10 @@ class SubscriptionListener extends AbstractEntityEventListener implements EventS
     {
         if ($this->matchesEntityClass($eventArgs)) {
 
-            try {
-                $this->operationFactory
-                    ->get('plan.create')
-                    ->getResult($eventArgs->getEntity());
-            }
-            catch(\Exception $e) {
-                $em = $eventArgs->getEntityManager();
-                $em->remove($subscription);
-                $em->flush();
-                throw $e;
-            }
+            $this->operationFactory
+                ->get('plan.create')
+                ->getResult($eventArgs->getEntity());
+
 
         }
     }

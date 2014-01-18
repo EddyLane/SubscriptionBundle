@@ -146,7 +146,7 @@ abstract class Card implements CardInterface
      */
     public function setToken($token)
     {
-        $this->token = $token;
+        $this->token = (string) $token;
 
         return $this;
     }

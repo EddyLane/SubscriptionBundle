@@ -14,20 +14,30 @@ class StripePlan extends AbstractStripeProxy
 {
     /**
      * @param  array $data
-     * @return mixed
+     * @return array
      */
-    public function create($data)
+    public function create(array $data)
     {
-        return Stripe_Plan::create($data);
+
+        return $this->client->createPlan($data);
     }
 
     /**
-     * @param $id
-     * @return mixed
+     * @param array $data
+     * @return array
      */
-    public function retrieve($id)
+    public function retrieve(array $data)
     {
-        return Stripe_Plan::retrieve($id);
+        return $this->client->getPlan($data);
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     */
+    public function remove(array $data)
+    {
+        return $this->client->deletePlan($data);
     }
 
 }

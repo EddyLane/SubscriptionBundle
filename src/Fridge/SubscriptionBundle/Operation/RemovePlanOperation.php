@@ -20,8 +20,7 @@ class RemovePlanOperation extends AbstractOperation
             throw new \ErrorException('Subscription must have been persisted');
         }
 
-        $plan = $this->stripePlan->retrieve($subscription->getId());
-        $plan->delete();
+        $this->stripePlan->remove([ 'id' => $subscription->getId() ]);
     }
 
 } 

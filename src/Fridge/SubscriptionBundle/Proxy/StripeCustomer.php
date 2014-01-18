@@ -13,20 +13,47 @@ use Stripe_Customer;
 class StripeCustomer extends AbstractStripeProxy
 {
     /**
-     * @param $id
-     * @return mixed
+     * @param array $id
+     * @return array
      */
-    public function retrieve($id)
+    public function retrieve(array $data)
     {
-        return Stripe_Customer::retrieve($id);
+        return $this->client->getCustomer($data);
     }
 
     /**
-     * @param  array $data
-     * @return mixed
+     * @param array $data
+     * @return array
      */
-    public function create($data)
+    public function update(array $data)
     {
-        return Stripe_Customer::create($data);
+        return $this->client->updateCustomer($data);
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     */
+    public function create(array $data)
+    {
+        return $this->client->createCustomer($data);
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     */
+    public function updateSubscription(array $data)
+    {
+        return $this->client->updateSubscription($data);
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     */
+    public function cancelSubscription(array $data)
+    {
+        return $this->client->cancelSubscription($data);
     }
 }

@@ -10,6 +10,9 @@ namespace Fridge\SubscriptionBundle\Operation;
 
 use Fridge\SubscriptionBundle\Exception\FridgeCardDeclinedException;
 use Fridge\SubscriptionBundle\Model\StripeProfileInterface;
+use ZfrStripe\Exception\CardErrorException;
+use ZfrStripe\Exception\ServerErrorException;
+use ZfrStripe\Exception\ValidationErrorException;
 
 /**
  * Class CreateCustomerOperation
@@ -26,16 +29,10 @@ class UpdateCustomerOperation extends AbstractOperation
             throw new \ErrorException('Profile has not been persisted to stripe');
         }
 
-        try {
-            $stripeCustomer = $this->getCustomer($stripeProfile);
-
-            $stripeCustomer->default_card = $stripeProfile->getDefaultCard()->getToken();
-
-            $stripeCustomer->save();
-        }
-        catch(\Stripe_Error $e) {
-            throw new FridgeCardDeclinedException($e->getMessage());
-        }
+        $this->stripeCustomer->update([
+            'id' => $stripeProfile->getStripeId(),
+            'default_card' => $stripeProfile->getDefaultCard()->getToken()
+        ]);
 
     }
 } 
