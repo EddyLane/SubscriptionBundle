@@ -12,6 +12,7 @@ use Fridge\SubscriptionBundle\Operation;
 use Fridge\SubscriptionBundle\Proxy\StripeCustomer;
 use Fridge\SubscriptionBundle\Proxy\StripePlan;
 use Fridge\SubscriptionBundle\Proxy\StripeCard;
+use Fridge\SubscriptionBundle\Manager\PaymentManager;
 
 /**
  * Class OperationFactory
@@ -35,14 +36,20 @@ class OperationFactory
     protected $stripeCard;
 
     /**
+     * @var \Fridge\SubscriptionBundle\Manager\PaymentManager
+     */
+    protected $paymentManager;
+
+    /**
      * @param StripeCustomer $stripeCustomer
      * @param StripePlan $stripePlan
      */
-    public function __construct(StripeCustomer $stripeCustomer, StripePlan $stripePlan, StripeCard $stripeCard)
+    public function __construct(StripeCustomer $stripeCustomer, StripePlan $stripePlan, StripeCard $stripeCard, PaymentManager $paymentManager)
     {
         $this->stripeCustomer = $stripeCustomer;
         $this->stripeCard = $stripeCard;
         $this->stripePlan = $stripePlan;
+        $this->paymentManager = $paymentManager;
     }
 
     /**
@@ -61,6 +68,8 @@ class OperationFactory
                 return new Operation\UpdateCustomerOperation($this->stripeCustomer, $this->stripePlan, $this->stripeCard);
             case 'customer.remove':
                 return new Operation\RemoveCustomerOperation($this->stripeCustomer, $this->stripePlan, $this->stripeCard);
+            case 'customer.charges.get':
+                return new Operation\GetCustomerPaymentsOperation($this->paymentManager, $this->stripeCustomer, $this->stripePlan, $this->stripeCard);
 
             case 'customer_and_card.create':
                 return new Operation\CreateCustomerAndCardOperation($this->stripeCustomer, $this->stripePlan, $this->stripeCard);

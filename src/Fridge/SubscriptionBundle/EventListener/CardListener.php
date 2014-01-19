@@ -23,13 +23,7 @@ use Stripe_CardError;
 class CardListener extends AbstractEntityEventListener implements EventSubscriber
 {
 
-    /**
-     * @return array
-     */
-    public function getSubscribedEvents()
-    {
-        return ['prePersist', 'preRemove'];
-    }
+    protected $events = ['prePersist', 'preRemove'];
 
     /**
      * @param  LifecycleEventArgs $eventArgs

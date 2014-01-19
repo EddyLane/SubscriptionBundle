@@ -78,7 +78,7 @@ EOT
                         throw new \Exception('Name can not be empty');
                     }
 
-                    return $name;
+                    return (string) $name;
                 }
             );
             $input->setArgument('name', $name);
@@ -87,13 +87,13 @@ EOT
         if (!$input->getArgument('price')) {
             $price = $this->getHelper('dialog')->askAndValidate(
                 $output,
-                'Please choose an price:',
+                'Please choose an price (in cents):',
                 function($price) {
                     if (empty($price)) {
                         throw new \Exception('Price can not be empty');
                     }
 
-                    return $price;
+                    return (int) $price;
                 }
             );
             $input->setArgument('price', $price);
@@ -108,7 +108,7 @@ EOT
                         throw new \Exception('Description can not be empty');
                     }
 
-                    return $description;
+                    return (string) $description;
                 }
             );
             $input->setArgument('description', $description);

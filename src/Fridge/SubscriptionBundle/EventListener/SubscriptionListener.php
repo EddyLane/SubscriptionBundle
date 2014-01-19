@@ -20,13 +20,7 @@ use Fridge\SubscriptionBundle\Proxy\StripePlan;
 class SubscriptionListener extends AbstractEntityEventListener implements EventSubscriber
 {
 
-    /**
-     * @return array
-     */
-    public function getSubscribedEvents()
-    {
-        return ['postPersist', 'preRemove'];
-    }
+    protected $events = ['postPersist', 'preRemove'];
 
     /**
      * @param LifecycleEventArgs $eventArgs

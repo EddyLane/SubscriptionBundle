@@ -28,8 +28,4 @@ interface ManagerInterface
      */
     public function remove($entity, $flush = true);
 
-    /**
-     * @return mixed
-     */
-    public function getRepository();
 }

@@ -30,6 +30,16 @@ abstract class AbstractEntityEventListener
     protected $entityClass;
 
     /**
+     * @var array
+     */
+    protected $events = [];
+
+    /**
+     * @var boolean
+     */
+    protected $enabled;
+
+    /**
      * @param $entityClass
      */
     public function setEntityClass($entityClass)
@@ -38,11 +48,25 @@ abstract class AbstractEntityEventListener
     }
 
     /**
-     * @param OperationFactory $operationFactory
+     * @return array
      */
-    public function __construct(OperationFactory $operationFactory)
+    public function getSubscribedEvents()
+    {
+        if (!$this->enabled) {
+            return [];
+        }
+        return $this->events;
+    }
+
+
+    /**
+     * @param OperationFactory $operationFactory    creates operations
+     * @param $enabled                              boolean to disable this event
+     */
+    public function __construct(OperationFactory $operationFactory, $enabled)
     {
         $this->operationFactory = $operationFactory;
+        $this->enabled = $enabled;
     }
 
     /**

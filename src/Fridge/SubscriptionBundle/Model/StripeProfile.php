@@ -9,7 +9,6 @@
 namespace Fridge\SubscriptionBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
-use Fridge\SubscriptionBundle\Entity\Payment;
 use Doctrine\Common\Collections\ArrayCollection;
 use Fridge\SubscriptionBundle\Model\StripeProfileInterface;
 use JMS\Serializer\Annotation\ExclusionPolicy;
@@ -48,13 +47,16 @@ abstract class StripeProfile implements StripeProfileInterface
      */
     protected $subscriptionEnd;
 
+    /**
+     * @var ArrayCollection
+     */
     protected $cards;
+
 
 
     public function __construct()
     {
         $this->cards = new ArrayCollection();
-        $this->payments = new ArrayCollection();
     }
 
     /**

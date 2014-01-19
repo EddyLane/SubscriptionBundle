@@ -17,13 +17,7 @@ use Fridge\SubscriptionBundle\Proxy\StripeCustomer;
 class StripeProfileListener extends AbstractEntityEventListener implements EventSubscriber
 {
 
-    /**
-     * @return array
-     */
-    public function getSubscribedEvents()
-    {
-        return ['prePersist', 'preUpdate', 'preRemove'];
-    }
+    protected $events = ['prePersist', 'preUpdate', 'preRemove'];
 
     /**
      * @param PreUpdateEventArgs $eventArgs

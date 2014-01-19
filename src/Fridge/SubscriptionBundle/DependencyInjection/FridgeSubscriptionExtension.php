@@ -42,6 +42,11 @@ class FridgeSubscriptionExtension extends Extension
             $configs[0]['stripe_sk']
         );
 
+        $container->setParameter(
+            'fridge_subscription.enable_listeners',
+            $configs[0]['enable_listeners']
+        );
+
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 

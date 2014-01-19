@@ -65,4 +65,24 @@ class StripeCustomer extends AbstractStripeProxy
     {
         return $this->client->cancelSubscription($data);
     }
+
+    /**
+     * @param array $data
+     * @return array
+     */
+    public function getCharges(array $data = null)
+    {
+        return $this->client->getCharges($data);
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     */
+    public function getInvoices(array $data)
+    {
+        return $this->client->getInvoices($data);
+    }
+
+
 }

@@ -34,7 +34,7 @@ class StripeProfile extends BaseStripeProfile
     protected $subscription;
 
     /**
-     * @ORM\OneToMany(targetEntity="Fridge\SubscriptionBundle\Entity\Card", mappedBy="user", cascade={"all"})
+     * @ORM\OneToMany(targetEntity="Fridge\SubscriptionBundle\Entity\Card", mappedBy="user", cascade={"all"}, fetch="EAGER")
      * @Expose
      * @ORM\OrderBy({"id" = "DESC"})
      * @var ArrayCollection $cards

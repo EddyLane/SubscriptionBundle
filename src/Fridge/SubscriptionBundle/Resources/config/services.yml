@@ -4,11 +4,13 @@ parameters:
     fridge.subscription.manager.subscription_manager.class:             Fridge\SubscriptionBundle\Manager\SubscriptionManager
     fridge.subscription.manager.card_manager.class:                     Fridge\SubscriptionBundle\Manager\CardManager
     fridge.subscription.manager.stripe_profile_manager.class:           Fridge\SubscriptionBundle\Manager\StripeProfileManager
+    fridge.subscription.manager.payment_manager.class:                  Fridge\SubscriptionBundle\Manager\PaymentManager
 
     fridge.subscription.entity.subscription.class:                      Fridge\SubscriptionBundle\Entity\Subscription
     fridge.subscription.entity.stripe_profile.class:                    Fridge\SubscriptionBundle\Entity\StripeProfile
     fridge.subscription.entity.card.class:                              Fridge\SubscriptionBundle\Entity\Card
     fridge.subscription.entity.stripe_profile.class:                    Fridge\SubscriptionBundle\Entity\StripeProfile
+    fridge.subscription.entity.payment.class:                           Fridge\SubscriptionBundle\Entity\Payment
 
     fridge.subscription.proxy.abstract_stripe_proxy.class:              Fridge\SubscriptionBundle\Proxy\AbstractStripeProxy
     fridge.subscription.proxy.stripe_customer.class:                    Fridge\SubscriptionBundle\Proxy\StripeCustomer
@@ -33,7 +35,7 @@ services:
 
     fridge.subscription.factory.operation_factory:
         class: %fridge.subscription.factory.operation_factory.class%
-        arguments: [@fridge.subscription.proxy.stripe_customer, @fridge.subscription.proxy.stripe_plan, @fridge.subscription.proxy.stripe_card]
+        arguments: [@fridge.subscription.proxy.stripe_customer, @fridge.subscription.proxy.stripe_plan, @fridge.subscription.proxy.stripe_card, @fridge.subscription.manager.payment_manager]
 
     #Proxies
 
@@ -86,6 +88,10 @@ services:
         parent: fridge.subscription.manager.base_manager
         arguments: [%fridge.subscription.entity.stripe_profile.class%]
 
+    fridge.subscription.manager.payment_manager:
+        class: %fridge.subscription.manager.payment_manager.class%
+        arguments: [%fridge.subscription.entity.payment.class%]
+
     #Listeners
 
     fridge.subscription.listener.webhook_lister:
@@ -97,7 +103,7 @@ services:
     fridge.subscription.listener.abstract_entity_event_listener:
         class: %fridge.subscription.listener.abstract_entity_event_listener.class%
         abstract: true
-        arguments: [@fridge.subscription.factory.operation_factory]
+        arguments: [@fridge.subscription.factory.operation_factory, '%fridge_subscription.enable_listeners%']
 
     fridge.subscription.listener.stripe_profile_listener:
         class: %fridge.subscription.listener.stripe_profile_listener.class%

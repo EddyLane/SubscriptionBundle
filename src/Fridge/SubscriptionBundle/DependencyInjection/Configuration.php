@@ -24,6 +24,7 @@ class Configuration implements ConfigurationInterface
             ->children()
             ->scalarNode('user_class')->isRequired()->cannotBeEmpty()->end()
             ->scalarNode('stripe_sk')->isRequired()->cannotBeEmpty()->end()
+            ->booleanNode('enable_listeners')->defaultTrue()->end()
             ->end()
         ;
         // Here you should define the parameters that are allowed to
