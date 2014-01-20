@@ -30,7 +30,7 @@ class RemoveCardOperation extends AbstractOperation
 
             $this->stripeCard->remove([
                 'id' => $card->getToken(),
-                'customer' => $card->getStripeProfile()->getStripeId()
+                'customer' => $card->getStripeProfileId()
             ]);
 
         }

@@ -45,7 +45,8 @@ class CreateCustomerAndCardOperation extends AbstractOperation
             ->setCardType($cardData['type'])
             ->setNumber($cardData['last4'])
             ->setExpMonth($cardData['exp_month'])
-            ->setExpYear($cardData['exp_year']);
+            ->setExpYear($cardData['exp_year'])
+        ;
     }
 
 } 

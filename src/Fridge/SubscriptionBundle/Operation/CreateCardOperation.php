@@ -29,21 +29,24 @@ class CreateCardOperation extends AbstractOperation
      */
     public function getResult(CardInterface $card)
     {
-        try {
+        if (!$card->getToken()) {
+            throw new \ErrorException('Card must have token set');
+        }
 
+        if (!$card->getStripeProfile()) {
+            throw new \ErrorException('Card must have an associated stripe profile');
+        }
+
+        try {
             $cardData = $this->stripeCard->create([
                 'card' => $card->getToken(),
-                'customer' => $card->getStripeProfile()->getStripeId()
+                'customer' => $card->getStripeProfileId()
             ]);
 
         } catch (CardErrorException $e) {
-
             throw new FridgeCardDeclinedException($e->getMessage(), 402);
-
         } catch (ValidationErrorException $e) {
-
             throw new InvalidTokenException('Invalid token', 402);
-
         }
 
         $card
@@ -51,7 +54,8 @@ class CreateCardOperation extends AbstractOperation
             ->setCardType($cardData['type'])
             ->setNumber($cardData['last4'])
             ->setExpMonth($cardData['exp_month'])
-            ->setExpYear($cardData['exp_year']);
+            ->setExpYear($cardData['exp_year'])
+        ;
     }
 
 } 

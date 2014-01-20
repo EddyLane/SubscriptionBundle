@@ -282,6 +282,14 @@ abstract class Card implements CardInterface
     }
 
     /**
+     * @return mixed|String
+     */
+    public function getStripeProfileId()
+    {
+        return $this->getStripeProfile()->getStripeId();
+    }
+
+    /**
      * @return string
      */
     public function getClassName()

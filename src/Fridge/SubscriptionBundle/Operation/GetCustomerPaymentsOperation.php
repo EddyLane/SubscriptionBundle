@@ -53,7 +53,7 @@ class GetCustomerPaymentsOperation extends AbstractOperation
             $payment = $this->paymentManager->create();
             $payment
                 ->setAmount($charge['amount'])
-                ->setCreatedAt(new \DateTime('@' . $charge['created']))
+                ->setCreatedAt('@' . $charge['created'], true)
             ;
 
             $card = current(array_filter($stripeProfile->getCards()->toArray(), function ($card) use ($charge) {

@@ -66,9 +66,9 @@ abstract class Payment
     /**
      * @param \DateTime $createdAt
      */
-    public function setCreatedAt(\DateTime $createdAt)
+    public function setCreatedAt($createdAt, $dateTime = false)
     {
-        $this->createdAt = $createdAt;
+        $this->createdAt = $dateTime ? new \DateTime($createdAt) : $createdAt;
 
         return $this;
     }

@@ -133,4 +133,10 @@ interface CardInterface
      * @return string
      */
     public function getCardTypeName();
+
+    /**
+     * @return mixed
+     * @return string
+     */
+    public function getStripeProfileId();
 }
