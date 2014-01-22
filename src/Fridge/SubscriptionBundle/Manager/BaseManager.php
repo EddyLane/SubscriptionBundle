@@ -3,6 +3,7 @@
 namespace Fridge\SubscriptionBundle\Manager;
 
 use Symfony\Component\Security\Core\SecurityContext;
+
 /**
  * Class BaseManager
  * @package Fridge\SubscriptionBundle\Manager
@@ -35,19 +36,19 @@ class BaseManager implements ManagerInterface
     }
 
     /**
+     * @return string
+     */
+    public function getClassName()
+    {
+        return $this->className;
+    }
+
+    /**
      * @param $className
      */
     public function setClassName($className)
     {
         $this->className = $className;
-    }
-
-    /**
-     * @param SecurityContext $context
-     */
-    public function setSecurityContext(SecurityContext $context)
-    {
-        $this->securityContext = $context;
     }
 
     /**
@@ -151,14 +152,6 @@ class BaseManager implements ManagerInterface
     public function setDoctrine($doctrine)
     {
         $this->doctrine = $doctrine;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCacheDriver()
-    {
-        return $this->getEntityManager()->getConfiguration()->getResultCacheImpl();
     }
 
     /**

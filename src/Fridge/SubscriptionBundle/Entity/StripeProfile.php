@@ -46,26 +46,4 @@ class StripeProfile extends BaseStripeProfile
      * @ORM\JoinColumn(name="default_card_id", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $defaultCard;
-
-    /**
-     * @param Card $card
-     * @return $this
-     */
-    public function setDefaultCard(Card $card)
-    {
-        $this->defaultCard = $card;
-
-        return $this;
-
-    }
-
-    /**
-     * @return \Fridge\SubscriptionBundle\Entity\Card
-     */
-    public function getDefaultCard()
-    {
-        return $this->defaultCard;
-
-    }
-
 }

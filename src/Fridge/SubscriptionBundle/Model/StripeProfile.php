@@ -140,6 +140,8 @@ abstract class StripeProfile implements StripeProfileInterface
     {
         $this->cards->add($card);
 
+        $this->setDefaultCard($card);
+
         $card->setStripeProfile($this);
 
         return $this;
