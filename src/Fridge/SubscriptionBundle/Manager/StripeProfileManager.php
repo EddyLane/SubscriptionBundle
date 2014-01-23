@@ -20,6 +20,8 @@ class StripeProfileManager extends BaseManager
      */
     public function findOneByStripeId($stripeId)
     {
-        return $this->getRepository()->findOneByStripeId($stripeId);
+        return $this->getRepository()->findOneBy([
+            'stripe_id' => $stripeId
+        ]);
     }
 } 

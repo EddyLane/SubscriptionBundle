@@ -36,8 +36,8 @@ class StripeProfileManagerTest extends AbstractBaseManagerTest
         $repositoryMock = $this->getGenericRepositoryMock();
 
         $repositoryMock->expects($this->once())
-            ->method('findOneByStripeId')
-            ->with(2)
+            ->method('findOneBy')
+            ->with(['stripe_id' => 2])
             ->will($this->returnValue($expection))
         ;
 

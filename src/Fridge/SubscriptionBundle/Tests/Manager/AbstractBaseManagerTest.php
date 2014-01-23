@@ -10,11 +10,11 @@ abstract class AbstractBaseManagerTest extends PHPUnit_Framework_TestCase
 {
     protected $baseManager;
 
-    protected function getGenericRepositoryMock()
+    protected function getGenericRepositoryMock(array $methods = [])
     {
         return $this->getMockBuilder('Doctrine\ORM\EntityRepository')
             ->disableOriginalConstructor()
-            ->getMock()
+            ->getMock($methods)
             ;
     }
 

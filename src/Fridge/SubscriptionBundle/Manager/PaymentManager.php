@@ -12,7 +12,7 @@ namespace Fridge\SubscriptionBundle\Manager;
  * Class PaymentManager
  * @package Fridge\SubscriptionBundle\Manager
  */
-class PaymentManager implements ManagerInterface
+class PaymentManager
 {
     /**
      * @var string
@@ -35,18 +35,4 @@ class PaymentManager implements ManagerInterface
     {
         return new $this->baseClass($constructWith);
     }
-
-    /**
-     * @param $entity
-     * @param bool $flush
-     * @return mixed|void
-     */
-    public function save($entity, $flush = true) {}
-
-    /**
-     * @param $entity
-     * @param bool $flush
-     * @return mixed|void
-     */
-    public function remove($entity, $flush = true) {}
 } 
