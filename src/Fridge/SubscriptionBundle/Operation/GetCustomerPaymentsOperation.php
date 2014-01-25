@@ -48,7 +48,9 @@ class GetCustomerPaymentsOperation extends AbstractOperation
             'customer' => $stripeProfile->getStripeId()
         ]);
 
-        return array_map(function ($charge) use ($stripeProfile) {
+        $cards = $stripeProfile->getCards()->toArray();
+
+        return array_map(function ($charge) use ($cards) {
 
             $payment = $this->paymentManager->create();
             $payment
@@ -56,7 +58,7 @@ class GetCustomerPaymentsOperation extends AbstractOperation
                 ->setCreatedAt('@' . $charge['created'], true)
             ;
 
-            $card = current(array_filter($stripeProfile->getCards()->toArray(), function ($card) use ($charge) {
+            $card = current(array_filter($cards, function ($card) use ($charge) {
                 return $card->getToken() == $charge['card']['id'];
             }));
 

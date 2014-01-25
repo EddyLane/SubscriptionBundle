@@ -20,6 +20,10 @@ class OperationFactoryTest extends PHPUnit_Framework_TestCase
 
     protected $paymentManager;
 
+    protected $invoiceManager;
+
+    protected $subscriptionManager;
+
     public function setUp()
     {
         $this->stripeCustomer = $this->getMockBuilder('Fridge\SubscriptionBundle\Proxy\StripeCustomer')
@@ -38,11 +42,21 @@ class OperationFactoryTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->invoiceManager = $this->getMockBuilder('Fridge\SubscriptionBundle\Manager\InvoiceManager')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->subscriptionManager = $this->getMockBuilder('Fridge\SubscriptionBundle\Manager\BaseManager')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->operationFactory = new OperationFactory(
             $this->stripeCustomer,
             $this->stripePlan,
             $this->stripeCard,
-            $this->paymentManager
+            $this->paymentManager,
+            $this->invoiceManager,
+            $this->subscriptionManager
         );
     }
 
@@ -99,6 +113,11 @@ class OperationFactoryTest extends PHPUnit_Framework_TestCase
     public function testRemoveSubscriptionOperation()
     {
         $this->assertInstanceOf('Fridge\SubscriptionBundle\Operation\RemoveSubscriptionOperation', $this->operationFactory->get('subscription.remove'));
+    }
+
+    public function testGetCustomerInvoicesOperation()
+    {
+        $this->assertInstanceOf('Fridge\SubscriptionBundle\Operation\GetCustomerInvoicesOperation', $this->operationFactory->get('customer.invoices.get'));
     }
 
     /**
