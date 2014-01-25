@@ -24,10 +24,9 @@ abstract class Loader implements FixtureInterface
      */
     protected function loadFixtures(array $fixtures, ObjectManager $manager)
     {
-        foreach ($fixtures as $i => $fixture) {
-            $fixtures[$i] = $this->replaceFixtureFilePath($fixture);
-        }
-        Fixtures::load($fixtures, $manager);
+        Fixtures::load(array_map(function ($fixture) {
+            return $this->replaceFixtureFilePath($fixture);
+        }, $fixtures), $manager);
     }
 
     /**

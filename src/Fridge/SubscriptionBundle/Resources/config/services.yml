@@ -69,20 +69,17 @@ services:
         class: %fridge.subscription.manager.base_manager.class%
         calls:
             - [ setDoctrine, [ @doctrine ] ]
-            - [ setSecurityContext, [ @security.context ] ]
 
     fridge.subscription.manager.subscription_manager:
         class: %fridge.subscription.manager.base_manager.class%
         calls:
             - [ setDoctrine, [ @doctrine ] ]
-            - [ setSecurityContext, [ @security.context ] ]
         arguments: [%fridge.subscription.entity.subscription.class%]
 
     fridge.subscription.manager.card_manager:
         class: %fridge.subscription.manager.base_manager.class%
         calls:
             - [ setDoctrine, [ @doctrine ] ]
-            - [ setSecurityContext, [ @security.context ] ]
         arguments: [%fridge.subscription.entity.card.class%]
 
     fridge.subscription.manager.stripe_profile_manager:
@@ -115,7 +112,7 @@ services:
             - { name: doctrine.event_subscriber }
         calls:
             - [ setEntityClass, [ '%fridge.subscription.entity.stripe_profile.class%' ] ]
-            - [ setSubscribedEvents, [ 'prePersist', 'preUpdate', 'preRemove' ] ]
+            - [ setSubscribedEvents, [ ['prePersist', 'preUpdate', 'preRemove'] ] ]
 
     fridge.subscription.listener.subscription_listener:
         class: %fridge.subscription.listener.subscription_listener.class%
@@ -124,7 +121,7 @@ services:
             - { name: doctrine.event_subscriber }
         calls:
             - [ setEntityClass, [ '%fridge.subscription.entity.subscription.class%' ] ]
-            - [ setSubscribedEvents, [ 'prePersist', 'preUpdate', 'preRemove' ] ]
+            - [ setSubscribedEvents, [ ['postPersist', 'preRemove'] ] ]
 
     fridge.subscription.listener.card_listener:
         class: %fridge.subscription.listener.card_listener.class%
@@ -133,4 +130,4 @@ services:
             - { name: doctrine.event_subscriber }
         calls:
             - [ setEntityClass, [ '%fridge.subscription.entity.card.class%' ] ]
-            - [ setSubscribedEvents, [ 'prePersist', 'preRemove' ] ]
+            - [ setSubscribedEvents, [ ['prePersist', 'preRemove'] ] ]

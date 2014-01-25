@@ -178,6 +178,14 @@ abstract class StripeProfile implements StripeProfileInterface
     }
 
     /**
+     * @return mixed
+     */
+    public function getDefaultCard()
+    {
+        return $this->defaultCard;
+    }
+
+    /**
      * @param CardInterface $card
      * @return $this
      */
