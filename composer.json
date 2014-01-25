@@ -11,14 +11,19 @@
     ],
     "require": {
         "php": ">=5.5.0",
-        "symfony/framework-bundle": "~2.1",
+        "symfony/framework-bundle": "2.4.*",
         "jms/serializer-bundle": "*",
         "friendsofsymfony/rest-bundle": "1.1.*@dev",
         "stof/doctrine-extensions-bundle": "~1.1@dev",
         "zfr/zfr-stripe": "1.2"
     },
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*@dev"
+    },
     "minimum-stability": "dev",
     "autoload": {
-        "psr-0": {"Fridge\\SubscriptionBundle": "src/"}
+        "psr-0": {
+            "Fridge\\SubscriptionBundle": "src/"
+        }
     }
 }

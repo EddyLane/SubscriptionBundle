@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<phpunit colors="true">
+<phpunit bootstrap="./src/Fridge/SubscriptionBundle/Tests/bootstrap.php"
+         colors="true"
+         processIsolation="false"
+         stopOnFailure="false"
+         syntaxCheck="false"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         testSuiteLoaderClass="PHPUnit_Runner_StandardTestSuiteLoader">
 
     <testsuites>
-        <testsuite name="FridgeSubscriptionBundle test suite">
-            <directory suffix="Test.php">./src/Tests</directory>
+        <testsuite>
+            <directory>./src/Fridge/SubscriptionBundle/Tests</directory>
         </testsuite>
     </testsuites>
 
