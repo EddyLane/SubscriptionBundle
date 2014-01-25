@@ -12,6 +12,7 @@
     "require": {
         "php": ">=5.5.0",
         "symfony/framework-bundle": "2.4.*",
+        "doctrine/orm": "~2.2,>=2.2.3",
         "jms/serializer-bundle": "*",
         "friendsofsymfony/rest-bundle": "1.1.*@dev",
         "stof/doctrine-extensions-bundle": "~1.1@dev",
