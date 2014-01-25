@@ -80,17 +80,13 @@ abstract class Card implements CardInterface
                 return self::CARD_TYPE_AMERICAN_EXPRESS;
             case 'mastercard':
                 return self::CARD_TYPE_MASTERCARD;
-            case 'discover':
-                return self::CARD_NAME_DISCOVER;
-            case 'diners club':
-                return self::CARD_NAME_DINERS_CLUB;
-            case 'jcb':
-                return self::CARD_NAME_JCB;
-            default:
-                return self::CARD_NAME_VISA;
         }
     }
 
+    /**
+     * @param $type
+     * @return mixed|string
+     */
     public final static function mapCardTypeName($type)
     {
         switch ($type) {
@@ -100,17 +96,13 @@ abstract class Card implements CardInterface
                 return self::CARD_NAME_MASTERCARD;
             case 3:
                 return self::CARD_NAME_AMERICAN_EXPRESS;
-            case 4:
-                return self::CARD_NAME_DISCOVER;
-            case 5:
-                return self::CARD_NAME_DINERS_CLUB;
-            case 6:
-                return self::CARD_NAME_JCB;
-            default:
-                return self::CARD_NAME_VISA;
         }
     }
 
+    /**
+     * @param $type
+     * @return mixed|string
+     */
     public final static function mapCardFormat($type)
     {
         switch ($type) {
@@ -120,14 +112,6 @@ abstract class Card implements CardInterface
                 return self::CARD_FORMAT_MASTERCARD;
             case 3:
                 return self::CARD_FORMAT_AMERICAN_EXPRESS;
-            case 4:
-                return self::CARD_FORMAT_DISCOVER;
-            case 5:
-                return self::CARD_FORMAT_DINERS_CLUB;
-            case 6:
-                return self::CARD_FORMAT_JCB;
-            default:
-                return self::CARD_FORMAT_VISA;
         }
     }
     /**

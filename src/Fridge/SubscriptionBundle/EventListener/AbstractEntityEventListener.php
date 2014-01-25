@@ -58,6 +58,16 @@ abstract class AbstractEntityEventListener
         return $this->events;
     }
 
+    /**
+     * @param array $events
+     * @return $this
+     */
+    public function setSubscribedEvents(array $events = [])
+    {
+        $this->events = $events;
+
+        return $this;
+    }
 
     /**
      * @param OperationFactory $operationFactory    creates operations
@@ -73,12 +83,12 @@ abstract class AbstractEntityEventListener
      * @param $entity
      * @return bool
      */
-    protected function matchesEntityClass(LifecycleEventArgs $eventArgs)
+    public function matchesEntityClass(LifecycleEventArgs $eventArgs)
     {
         $entity = $eventArgs->getEntity();
         $em = $eventArgs->getEntityManager();
         $entityClass = $em->getClassMetadata(get_class($entity))->getName();
 
-        return $this->entityClass === $entityClass;
+        return $entityClass === $this->entityClass || is_subclass_of($entity, $this->entityClass);
     }
 }

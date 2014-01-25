@@ -9,7 +9,6 @@ parameters:
     fridge.subscription.entity.subscription.class:                      Fridge\SubscriptionBundle\Entity\Subscription
     fridge.subscription.entity.stripe_profile.class:                    Fridge\SubscriptionBundle\Entity\StripeProfile
     fridge.subscription.entity.card.class:                              Fridge\SubscriptionBundle\Entity\Card
-    fridge.subscription.entity.stripe_profile.class:                    Fridge\SubscriptionBundle\Entity\StripeProfile
     fridge.subscription.entity.payment.class:                           Fridge\SubscriptionBundle\Entity\Payment
 
     fridge.subscription.proxy.abstract_stripe_proxy.class:              Fridge\SubscriptionBundle\Proxy\AbstractStripeProxy
@@ -102,6 +101,8 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
+    #ENTITY LISTENERS
+
     fridge.subscription.listener.abstract_entity_event_listener:
         class: %fridge.subscription.listener.abstract_entity_event_listener.class%
         abstract: true
@@ -114,6 +115,7 @@ services:
             - { name: doctrine.event_subscriber }
         calls:
             - [ setEntityClass, [ '%fridge.subscription.entity.stripe_profile.class%' ] ]
+            - [ setSubscribedEvents, [ 'prePersist', 'preUpdate', 'preRemove' ] ]
 
     fridge.subscription.listener.subscription_listener:
         class: %fridge.subscription.listener.subscription_listener.class%
@@ -122,6 +124,7 @@ services:
             - { name: doctrine.event_subscriber }
         calls:
             - [ setEntityClass, [ '%fridge.subscription.entity.subscription.class%' ] ]
+            - [ setSubscribedEvents, [ 'prePersist', 'preUpdate', 'preRemove' ] ]
 
     fridge.subscription.listener.card_listener:
         class: %fridge.subscription.listener.card_listener.class%
@@ -130,3 +133,4 @@ services:
             - { name: doctrine.event_subscriber }
         calls:
             - [ setEntityClass, [ '%fridge.subscription.entity.card.class%' ] ]
+            - [ setSubscribedEvents, [ 'prePersist', 'preRemove' ] ]

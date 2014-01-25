@@ -20,8 +20,6 @@ use Fridge\SubscriptionBundle\Proxy\StripePlan;
 class SubscriptionListener extends AbstractEntityEventListener implements EventSubscriber
 {
 
-    protected $events = ['postPersist', 'preRemove'];
-
     /**
      * @param LifecycleEventArgs $eventArgs
      */
@@ -32,11 +30,8 @@ class SubscriptionListener extends AbstractEntityEventListener implements EventS
             $this->operationFactory
                 ->get('plan.create')
                 ->getResult($eventArgs->getEntity());
-
-
         }
     }
-
 
     /**
      * @param LifecycleEventArgs $eventArgs
@@ -48,7 +43,6 @@ class SubscriptionListener extends AbstractEntityEventListener implements EventS
             $this->operationFactory
                 ->get('plan.remove')
                 ->getResult($eventArgs->getEntity());
-
         }
     }
 

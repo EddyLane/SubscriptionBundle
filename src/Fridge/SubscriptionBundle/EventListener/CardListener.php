@@ -22,9 +22,6 @@ use Stripe_CardError;
  */
 class CardListener extends AbstractEntityEventListener implements EventSubscriber
 {
-
-    protected $events = ['prePersist', 'preRemove'];
-
     /**
      * @param  LifecycleEventArgs $eventArgs
      * @throws \Exception
