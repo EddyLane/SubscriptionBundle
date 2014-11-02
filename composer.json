@@ -15,7 +15,7 @@
         "doctrine/orm": "~2.2,>=2.2.3",
         "doctrine/doctrine-bundle": "~1.2",
         "jms/serializer-bundle": "*",
-        "friendsofsymfony/rest-bundle": "1.1.*@dev",
+        "friendsofsymfony/rest-bundle": "~1.4",
         "stof/doctrine-extensions-bundle": "~1.1@dev",
         "zfr/zfr-stripe": "1.2"
     },
